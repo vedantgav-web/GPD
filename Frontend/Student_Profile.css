@@ -1,0 +1,214 @@
+:root {
+  --logo-size: 180px;
+  --header-bg: #333333;
+  --accent-yellow: #f3dfab;
+  --page-bg: #f3dfab;
+  --card-width: 80%;
+  --max-card-width: 820px;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Rockwell Nova, sans-serif;
+  background: var(--page-bg);
+  color: #222;
+}
+
+/* HEADER */
+.site-header {
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 40px;
+  background: var(--header-bg);
+  color: #fff;
+  height: 150px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+.header-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+.logo {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: 50%;
+  border: 6px solid var(--accent-yellow);
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transform: translateY(40%);
+}
+.college-name {
+  font-size: 28px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: var(--accent-yellow);
+}
+
+/* PROFILE SECTION */
+.profile-section {
+  padding: 20px;
+  background: white;
+  max-width: var(--max-card-width);
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.profile-form label {
+  font-weight: bold;
+}
+
+.profile-form input,
+.profile-form select,
+.profile-form textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-size: 16px;
+  width: 100%;
+}
+
+.profile-form input:disabled,
+.profile-form select:disabled,
+.profile-form textarea:disabled {
+  background-color: #eee;
+  color: #666;
+  cursor: text;
+}
+
+textarea {
+  resize: none;
+}
+
+/* Profile Photo */
+.profile-photo {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.profile-photo img#studentPhoto {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px inset #f3dfab;
+}
+.photo-edit-icon {
+  position: absolute;
+  bottom: 0px;
+  right: calc(50% - 60px);
+  width: 25px;
+  height: 25px;
+  padding: 4px;
+  border-radius: 10%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.photo-edit-icon:hover {
+  background-color: #e5d68d;
+}
+
+/* Editable Fields */
+.editable-field {
+  position: relative;
+}
+.field-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Correct pencil icon positioning */
+.field-wrapper button.field-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.field-wrapper button.field-edit-btn img {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s;
+}
+.field-wrapper button.field-edit-btn:hover img {
+  transform: scale(1.1);
+}
+
+/* Submit Button */
+.profile-form button[type="submit"] {
+  padding: 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+.profile-form button[type="submit"]:hover {
+  background-color: #000;
+}
+
+input:invalid {
+  border-color: red;
+}
+
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.modal-actions button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+}
+#confirmBtn {
+  background-color: #28a745;
+  color: white;
+}
+#cancelBtn {
+  background-color: #dc3545;
+  color: white;
+}

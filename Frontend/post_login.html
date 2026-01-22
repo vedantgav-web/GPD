@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements - Government Polytechnic Dharashiv</title>
+  <link rel="stylesheet" href="post_login.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/myimage.jpeg" alt="College Logo" class="logo">
+      <div class="college-name">Government Polytechnic Dharashiv</div>
+    </div>
+
+    <nav class="header-nav">
+      <button class="nav-item active" onclick="switchView(this, 'viewHome')">Home</button>
+      <button class="nav-item" onclick="switchView(this, 'viewFaculty')">Staff</button>
+      <button class="nav-item" onclick="switchView(this, 'viewAnnouncements')">Announcements</button>
+      <button class="nav-item" onclick="switchView(this, 'viewLinks')">Links</button>
+      <button class="nav-item" onclick="switchView(this, 'viewGallery')">Gallery</button>
+
+      <button class="nav-item" onclick="switchView(this, 'viewResults')">Results</button>
+    </nav>
+  
+    <div class="header-right">
+      <a href="Student_profile.html">
+        <img src="images/user.png" alt="Clickable Image" style="cursor: pointer;" class="profile-icon" />
+      </a>
+      <div class="search-container">
+        <img src="images/search.png" alt="Search" class="search-icon">
+        <input type="text" id="searchBox" placeholder="Search announcements..." class="search-box">
+      </div>
+    </div>
+  </header>
+
+
+  <main class="main-area">
+    <div id="viewHome" class="view-container active">
+      <div class="home-layout">
+        <div class="hero-box">
+          <img src="images/college_main.jpeg" alt="College" class="hero-img">
+          <div class="hero-text">
+            <h1>Welcome to GP Dharashiv</h1>
+            <p>Excellence in Engineering & Technology</p>
+          </div>
+        </div>
+
+        <div class="side-box">
+          <div class="quote-card">
+            <h3>Daily Inspiration</h3>
+            <p id="inspirationText">"The roots of education are bitter, but the fruit is sweet."</p>
+          </div>
+
+          <div class="vm-section-home">
+            <h3 class="vm-title-home">Vision & Mission</h3>
+            <div class="vm-container-home">
+              <div class="vm-card-home">
+                <h4>Vision</h4>
+                <p>To be one of the center for excellence in technical education and training for human resource
+                  development in rural area.</p>
+              </div>
+              <div class="vm-card-home">
+                <h4>Mission</h4>
+                <p>To impart quality education.<br>To achieve excellence in teaching learning Process.<br>To provide
+                  training to meet the need of industry and society.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="para" style="font-weight: bold;">Accredited by National Board of Accreditation, New Delhi</p>
+      <p class="para">Government Polytechnic Dharashiv is established in 1985. This institute belongs to Government of
+        Maharashtra & under the governance of the Director of Technical Education (M.S) Mumbai. The institute is
+        affiliated to Maharashtra State Board of Technical Education (MSBTE).</p>
+    </div>
+
+    <div id="viewAnnouncements" class="view-container" style="display:none;">
+      <section class="left-section">
+        <h2 class="heading">Announcements</h2>
+        <div id="announcementsContainer" class="announcements-grid"></div>
+      </section>
+    </div>
+
+    <div id="viewLinks" class="view-container" style="display:none;">
+      <section class="links-section">
+        <h3 class="heading">Important Links</h3>
+        <div class="links-grid" id="linksContainer"></div>
+      </section>
+    </div>
+
+    <div id="viewGallery" class="view-container" style="display:none;">
+      <section class="gallery-section">
+        <h3 class="heading">Gallery</h3>
+        <div id="gallery"></div>
+      </section>
+    </div>
+
+
+    <div id="viewFaculty" class="view-container">
+      <h2 class="page-heading">College Administration</h2>
+
+      <div class="faculty-lead">
+        <div class="faculty-card">
+          <img src="images/principal.jpg" alt="Principal">
+          <h4>Dr. M. R. LOHOKARE</h4>
+          <p class="designation">I/C Principal</p>
+          <p class="designation">& HOD Electronics & Telecomm. Engg.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">Heads of Departments</h3>
+      <div class="faculty-grid">
+        <div class="faculty-card">
+          <img src="images/hod_comp.jpg" alt="HOD Computer">
+          <h4>MR. P. J. Bansode</h4>
+          <p class="designation">HOD Computer Engg.</p>
+        </div>
+
+        <div class="faculty-card">
+          <img src="images/hod_mechanical.jpg" alt="HOD Civil">
+          <h4>Mr. V. A. Gavasane</h4>
+          <p class="designation">HOD Mechanical Engg.</p>
+        </div>
+        <div class="faculty-card">
+          <img src="images/hod_civil.jpg" alt="HOD Civil">
+          <h4>Name of HOD</h4>
+          <p class="designation">HOD Civil Engg.</p>
+        </div>
+        <div class="faculty-card">
+          <img src="images/hod_electrical.jpg" alt="HOD Electrical">
+          <h4>Name of HOD</h4>
+          <p class="designation">HOD Civil Engg.</p>
+        </div>
+        <div class="faculty-card">
+          <img src="images/hod_automobile.jpg" alt="HOD Automobile">
+          <h4>Name of HOD</h4>
+          <p class="designation">HOD Civil Engg.</p>
+        </div>
+
+        <div class="faculty-card">
+          <img src="images/hod_dressdeign.jpg" alt="HOD">
+          <h4>Coming Soon</h4>
+          <p class="designation">HOD Dress Designing and Garment Manufacturing</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="viewResults" class="view-container" style="display:none;">
+      <div class="result-header">
+        <h2 class="page-heading">Performance Summary</h2>
+        <p>A quick overview of your academic progress across all semesters.</p>
+      </div>
+
+      <div id="resultSummaryCards" class="summary-grid">
+        <div class="loading-text">Loading your records...</div>
+      </div>
+
+      <div class="full-view-cta">
+        <button class="primary-btn" onclick="openDetailedTranscript()">
+          View & Print Full Academic Transcript
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="main-footer">
+      <h2>Government Polytechnic,Dharashiv
+      </h2>
+      <h4>Government Polytechnic,<br>Tuljapur Road, Dharashiv.<br>Pin Code-413501,<br>District Dharashiv,<br>State
+        Maharashtra.</h4>
+      <h4><img src="images/telephone.png" class="footer-img" alt="phone">02472 -251745 </h4>
+      <h4><img src="images/mail.png" class="footer-img" alt="phone">office.gposmanabad@dtemaharashtra.gov.in </h4>
+      <h4 id="cr">©2022 Copyright by government polytechnic, Dharashiv. All rights reserved.</h4>
+    </div>
+  </footer>
+
+  <script src="announcements.js"></script>
+  <script src="searchToggle.js"></script>
+  <script src="gallery.js"></script>
+  <script src="links.js"></script>
+  <script src="post_login.js"></script>
+
+  
+
+</body>
+
+</html>

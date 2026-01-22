@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Transcript</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #fff; color: #000; padding: 20px; line-height: 1.4; }
+        .no-print { margin-bottom: 20px; text-align: center; }
+        .marksheet-container { max-width: 1000px; margin: 20px auto; padding: 20px; border: 1px dashed #333; background: #fff; }
+        .header-info { border-bottom: 1px dashed #333; margin-bottom: 15px; padding-bottom: 10px; }
+        .info-line { margin-bottom: 8px; font-size: 14px; }
+        .info-grid { display: grid; grid-template-columns: 1.5fr 1fr 2fr; gap: 10px; font-size: 13px; }
+        .data-field { font-weight: bold; border-bottom: 1px dotted #999; padding: 0 5px; text-transform: uppercase; }
+        .semester-section { margin-bottom: 40px; page-break-inside: avoid; }
+        .sem-label { background: #000; color: #fff; padding: 5px 10px; display: inline-block; margin-bottom: 0; }
+        .msbte-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1.5px solid #000; }
+        .msbte-table th, .msbte-table td { border: 1px solid #000; padding: 6px; text-align: center; }
+        .msbte-table th { background: #f9f9f9; text-transform: uppercase; }
+        .sub-title { text-align: left; font-weight: bold; padding-left: 10px; width: 35%; }
+        .bold { font-weight: bold; }
+        .result-footer { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid #000; border-top: none; }
+        .footer-box { border-right: 1px solid #000; padding: 8px; text-align: center; }
+        .footer-box.full { grid-column: span 3; border-right: none; border-top: 1px solid #000; background: #f2f2f2; }
+        .footer-box .label { font-size: 10px; font-weight: bold; text-transform: uppercase; display: block; }
+        .footer-box .value { font-size: 15px; font-weight: bold; }
+        @media print { .no-print { display: none; } body { padding: 0; } .marksheet-container { border: none; } }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <button onclick="window.print()" style="padding: 10px 20px; cursor:pointer;">Print Transcript</button>
+    </div>
+
+    <div id="content" class="container">
+        <h2 style="text-align: center;">Loading Records...</h2>
+    </div>
+
+<script>
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        let enrollment_no = params.get('enrollment_no');
+
+        if (!enrollment_no) {
+            enrollment_no = localStorage.getItem('current_enrollment');
+        }
+
+        if (!enrollment_no || enrollment_no === "null") {
+            document.getElementById('content').innerHTML = "<h2>Error: Enrollment ID not found.</h2>";
+            return;
+        }
+
+        loadRecords(enrollment_no);
+    };
+
+    async function loadRecords(enrollment) {
+        const content = document.getElementById('content');
+        try {
+            const res = await fetch(`http://localhost:5000/api/results/student/${enrollment}`);
+            const data = await res.json();
+
+            if (!data || !data.student || !data.marks || data.marks.length === 0) {
+                content.innerHTML = "<h2>No student record found.</h2>";
+                return;
+            }
+
+            // Student Header
+            let html = `
+                <div class="marksheet-container">
+                    <div class="header-info">
+                        <div class="info-line">MR. / MS. <span class="data-field">${data.student.name.toUpperCase()}</span></div>
+                        <div class="info-grid">
+                            <div>ENROLLMENT NO. <span class="data-field">${data.student.enrollment_no}</span></div>
+                            <div>EXAMINATION <span class="data-field">${data.marks[0].academic_year || '---'}</span></div>
+                            <div>SEAT NO. <span class="data-field">${data.marks[0].seat_no || 'N/A'}</span></div>
+                            <div>COURSE <span class="data-field">${data.student.branch}</span></div>
+                        </div>
+                    </div>`;
+
+            // System fields to exclude from subject rows
+            const systemFields = [
+                'enrollment_no', 'academic_year', 'seat_no', 'total_marks_obtained', 
+                'max_total_marks', 'percentage', 'result_status', 'rank_no', 
+                'semester_label', 'semester'
+            ];
+
+            data.marks.forEach(record => {
+                // SKIP empty semesters (where no status or marks exist)
+                if (!record.result_status && !record.total_marks_obtained) return;
+
+                const subjects = {};
+
+                // GROUP marks by subject name
+                Object.entries(record).forEach(([key, val]) => {
+                    const cleanKey = key.toLowerCase();
+                    if (!systemFields.includes(cleanKey) && val !== null) {
+                        const parts = key.split('_');
+                        const subName = parts[0]; 
+
+                        if (!subjects[subName]) {
+                            subjects[subName] = { FA_TH: '-', SA_TH: '-', FA_PR: '-', SA_PR: '-', SLA: '-' };
+                        }
+
+                        if (key.endsWith('_FA_TH')) subjects[subName].FA_TH = val;
+                        else if (key.endsWith('_SA_TH')) subjects[subName].SA_TH = val;
+                        else if (key.endsWith('_FA_PR')) subjects[subName].FA_PR = val;
+                        else if (key.endsWith('_SA_PR')) subjects[subName].SA_PR = val;
+                        else if (key.endsWith('_SLA')) subjects[subName].SLA = val;
+                    }
+                });
+
+                html += `
+                <div class="semester-section">
+                    <h3 class="sem-label">SEMESTER: ${record.semester_label || 'N/A'}</h3>
+                    <table class="msbte-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="3">TITLE OF SUBJECTS</th>
+                                <th colspan="3">THEORY</th>
+                                <th colspan="2">PRACTICALS</th>
+                                <th rowspan="2">SLA</th>
+                            </tr>
+                            <tr>
+                                <th>FA-TH</th><th>SA-TH</th><th>TOTAL</th>
+                                <th>FA-PR</th><th>SA-PR</th>
+                            </tr>
+                            <tr class="min-max-row">
+                                <th>OBT</th><th>OBT</th><th>OBT</th>
+                                <th>OBT</th><th>OBT</th><th>OBT</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                for (const [name, m] of Object.entries(subjects)) {
+                    const th_total = (m.FA_TH !== '-' ? Number(m.FA_TH) : 0) + (m.SA_TH !== '-' ? Number(m.SA_TH) : 0);
+                    const displayTotal = (m.FA_TH === '-' && m.SA_TH === '-') ? '-' : th_total;
+
+                    html += `
+                        <tr>
+                            <td class="sub-title">${name.replace(/([A-Z])/g, ' $1').trim().toUpperCase()}</td>
+                            <td>${m.FA_TH}</td><td>${m.SA_TH}</td><td class="bold">${displayTotal}</td>
+                            <td>${m.FA_PR}</td><td>${m.SA_PR}</td>
+                            <td>${m.SLA}</td>
+                        </tr>`;
+                }
+
+                html += `</tbody></table>
+                    <div class="result-footer">
+                        <div class="footer-box">
+                            <span class="label">TOTAL MARKS OBTAINED</span>
+                            <span class="value">${record.total_marks_obtained} / ${record.max_total_marks || '---'}</span>
+                        </div>
+                        <div class="footer-box">
+                            <span class="label">PERCENTAGE %</span>
+                            <span class="value">${record.percentage}%</span>
+                        </div>
+                        <div class="footer-box">
+                            <span class="label">RANK</span>
+                            <span class="value">#${record.rank_no || 'N/A'}</span>
+                        </div>
+                        <div class="footer-box full">
+                            <span class="value">RESULT: ${record.result_status ? record.result_status.toUpperCase() : "N/A"}</span>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            html += `</div>`;
+            content.innerHTML = html;
+
+        } catch (err) {
+            console.error("Fetch Error:", err);
+            content.innerHTML = "<h2>Error generating marksheet. Please check API connection.</h2>";
+        }
+    }
+</script>
+</body>
+</html>

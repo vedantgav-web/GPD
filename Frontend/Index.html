@@ -1,0 +1,80 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GP Dharashiv - Login</title>
+  <link rel="stylesheet" href="preLogin.css">
+</head>
+<body>
+
+  <section id="mainBox" class="box">
+    <img src="images/myimage.jpeg" alt="logo" class="logoimg">
+    <h2>Get Started!!</h2>
+
+
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="showTab('student')">Student</button>
+      <button class="tab-btn" onclick="showTab('admin')">Admin</button>
+    </div>
+
+  
+   <div id="studentTab" class="tab-content active">
+      <h3 class="tab_heading">Student Login</h3>
+      <form onsubmit="return false;">
+
+        
+        <div class="input-group">
+          <label class="input-label">Username</label>
+          <div class="input-container">
+            <img src="images/user2.png " alt="user" class="icons"> <input type="text" id="studentUsername" placeholder="username" required>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Password</label>
+          <div class="input-container">
+            <img src="images/key.png" alt="key" class="icons" >
+            <input type="password" placeholder="password" id="studentPassword" class="password" required>
+            <img src="images/eye.png" alt="see" class="icons toggle_button" ></div> 
+        </div>
+        <button type="button" onclick="studentLogin()" class="tab-btn glow-btn">Login</button>
+
+        
+      </form>
+    </div>
+ 
+     <div id="adminTab" class="tab-content">
+      <h3 class="tab_heading">Admin Login</h3>
+      <form action="admin_dashboard.html" method="post">
+        
+        <div class="input-group">
+          <label class="input-label">Username</label>
+          <div class="input-container">
+             <img src="images/user2.png " alt="user" class="icons"> <input type="text" id="adminUsername" placeholder="username" required>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Password</label>
+          <div class="input-container">
+             <img src="images/key.png" alt="key" class="icons" >
+             <input type="password" placeholder="password" id="adminPassword" class="password" required>
+            <img src="images/eye.png" alt="see" class="icons toggle_button" >
+          </div>
+          </div>
+       
+        
+        <button type="button" onclick="adminLogin()" class="tab-btn glow-btn">Login</button>
+
+      </form>
+    </div> 
+
+  </section>
+
+  <script src="script.js"></script>
+  <script src="backend1.js"></script>
+  <script src="passwordtoggle.js"></script>
+
+</body>
+</html> 

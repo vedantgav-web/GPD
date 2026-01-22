@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Government Polytechnic Dharashiv</title>
+  <link rel="stylesheet" href="admin_dashboard.css">
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/myimage.jpeg" alt="College Logo" class="logo">
+      <div class="college-name">Government Polytechnic Dharashiv</div>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-item active" onclick="switchTab(this, 'viewDashboard')">Dashboard</button>
+      <button class="nav-item" onclick="switchTab(this, 'viewData')">Data</button>
+      <button class="nav-item" onclick="switchTab(this, 'viewResults')">Result Record</button>
+    </nav>
+
+    <div class="header-right">
+      <a href="Admin_ Profile.html">
+        <img src="images/user.png" alt="Profile" class="profile-icon">
+      </a>
+      <div class="search-container">
+        <img src="images/search.png" alt="Search" class="search-icon">
+        <input type="text" id="searchBox" placeholder="Search..." class="search-box">
+      </div>
+    </div>
+  
+  </header>
+  <main id="viewDashboard" class="view-container">
+   
+    <div class="forms-grid">
+
+      <!-- Section 1: Add Student -->
+      <section class="admin-card">
+        <h2>Add Student</h2>
+        <form id="addStudentForm" class="admin-form">
+          <label>Full Name</label>
+          <input type="text" id="stuName" placeholder="Enter full name" required>
+
+          <label>Enrollment No.</label>
+          <input type="text" id="stuEnroll" placeholder="Enter enrollment number" required>
+
+          <label>Roll No.</label>
+          <input type="text" id="stuRoll" placeholder="Enter roll number" required>
+
+          <label>Branch</label>
+          <select id="stuBranch" required>
+            <option value="">Select Branch</option>
+            <option value="Computer">Computer</option>
+            <option value="Electronics And Telecommunication">Electronics And Telecommunication</option>
+            <option value="Civil">Civil</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Automobile">Automobile</option>
+            <option value="Dress Designing">Dress Designing</option>
+          </select>
+
+          <label>Semester</label>
+          <select id="stuSem">
+            <option value="">Select Semester</option>
+            <option value="1">1 (Regular Entry)</option>
+            <option value="2">2</option>
+            <option value="3">3 (Direct Second Year)</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <label>Academic Year (Admission)</label>
+          <input type="text" id="stuYear" placeholder="e.g., 2023-24" required>
+
+          <label>Phone No.</label>
+          <input type="tel" id="stuPhone" placeholder="Enter phone number">
+
+          <label>Email</label>
+          <input type="email" id="stuEmail" placeholder="Enter email address">
+
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <!-- Section 2: Update Student -->
+      <section class="admin-card">
+        <h2>Update Student Details</h2>
+        <form id="updateStudentForm" class="admin-form">
+          <label>Enrollment No. (To Search)</label>
+          <input type="text" id="updateEnroll" placeholder="Enter enrollment number to update" required>
+
+          <hr style="margin: 10px 0; border: 1px solid #ccc;">
+
+          <label>Full Name</label>
+          <input type="text" id="updateName" placeholder="Enter new full name">
+
+          <label>Roll No.</label>
+          <input type="text" id="updateRoll" placeholder="Enter new roll number">
+
+          <label>Branch</label>
+          <select id="updateBranch">
+            <option value="">Select Branch</option>
+            <option value="Computer">Computer</option>
+            <option value="Electronics And Telecommunication">Electronics And Telecommunication</option>
+            <option value="Civil">Civil</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Automobile">Automobile</option>
+            <option value="Dress Designing">Dress Designing</option>
+          </select>
+
+          <label>Semester</label>
+          <select id="updateSem">
+            <option value="">Select Semester</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+
+          <label>Phone No.</label>
+          <input type="tel" id="updatePhone" placeholder="Enter new phone number">
+
+          <label>Email</label>
+          <input type="email" id="updateEmail" placeholder="Enter new email address">
+
+          <button type="submit">Update Details</button>
+        </form>
+      </section>
+
+      <!-- Section 3: Add Announcement -->
+      <section class="admin-card">
+        <h2>Add Announcement</h2>
+        <form id="addAnnouncementForm" class="admin-form">
+          <label>Title</label>
+          <input type="text" placeholder="Enter announcement title" required>
+
+          <label>Short Description</label>
+          <textarea rows="2" placeholder="Enter short description" required></textarea>
+
+          <label>Long Description</label>
+          <textarea rows="4" placeholder="Enter detailed description"></textarea>
+
+          <label>Attachments</label>
+          <input type="file" multiple>
+
+          <button type="submit">Publish Announcement</button>
+        </form>
+      </section>
+
+      <!-- Section 4: Add Link -->
+      <section class="admin-card">
+        <h2>Add Important Link</h2>
+        <form id="addLinkForm" class="admin-form"> <label>Link Name</label>
+          <input type="text" placeholder="Enter link name" required>
+          <label>Link URL</label>
+          <input type="url" placeholder="Enter full URL" required>
+          <button type="submit">Add Link</button>
+        </form>
+      </section>
+
+      <!-- Section 5: Add Photos -->
+      <section class="admin-card">
+        <h2>Add Photos</h2>
+        <form id="addImageform" class="admin-form">
+          <label>Title</label>
+          <input type="text" id="imageTitle" placeholder="Enter Title">
+
+          <label>Upload Photos</label>
+          <input type="file" multiple accept="image/*" required>
+          <label for="albumNameInput">Album Name:</label>
+          <input type="text" id="albumNameInput" class="admin-input"
+            placeholder="e.g. Annual Day 2024 or Computer Dept">
+          <small>Tip: Use the same name to add more photos to an existing album.</small>
+
+          <button type="submit">Upload Photos</button>
+        </form>
+      </section>
+
+      <!-- Section 6: Add Admin -->
+      <section class="admin-card">
+        <h2>Add New Admin</h2>
+
+        <form id="addAdminForm" class="admin-form">
+          <label>Username</label>
+          <input type="text" placeholder="Enter username" required>
+
+          <label>Password</label>
+          <input type="password" placeholder="Enter password" required>
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter admin name" required>
+
+          <label>Phone No.</label>
+          <input type="tel" placeholder="Enter phone number">
+
+          <label>Email</label>
+          <input type="email" placeholder="Enter email address">
+
+
+          <button type="submit">Add Admin</button>
+        </form>
+      </section>
+
+      <section class="admin-card">
+        <h2>Update Admin Details</h2>
+        <form id="updateAdminForm" class="admin-form">
+          <label>Username (To Search)</label>
+          <input type="text" id="targetAdminUser" placeholder="Enter username to update" required>
+
+          <hr style="margin: 10px 0; border: 1px solid #ccc;">
+
+          <label>New Full Name</label>
+          <input type="text" id="upAdminName" placeholder="Update full name">
+
+          <label>New Phone No.</label>
+          <input type="tel" id="upAdminPhone" placeholder="Update phone number">
+
+          <label>New Email</label>
+          <input type="email" id="upAdminEmail" placeholder="Update email address">
+
+          <button type="submit">Update Admin</button>
+        </form>
+      </section>
+
+      <!-- Section 7: Delete Student -->
+      <section class="admin-card">
+        <h2>Delete Student</h2>
+        <form id="deleteStudentForm" class="admin-form">
+          <label>Enrollment No.</label>
+          <input type="text" id="deleteEnroll" placeholder="Enter enrollment number to delete" required>
+          <button type="submit" style="background-color: #dc3545;">Delete Student</button>
+        </form>
+      </section>
+
+      <!-- Section 8: Delete announcement -->
+      <section class="admin-card">
+        <h2>Delete Announcement</h2>
+        <form id="deleteAnnouncementForm" class="admin-form">
+          <label>Announcement ID</label>
+          <input type="text" placeholder="Enter Announcement ID" required>
+          <button type="submit">Delete Announcement</button>
+        </form>
+      </section>
+
+      <!-- Section 8: Delete Photos -->
+      <section class="admin-card">
+        <h2>Delete Photos</h2>
+        <form id="deleteImageForm" class="admin-form">
+          <label>Photo ID</label>
+          <input type="text" placeholder="Enter ID" required>
+          <button type="submit">Delete Photo</button>
+        </form>
+      </section>
+
+      <!-- Section 9: Delete Links -->
+      <section class="admin-card">
+        <h2>Delete Link</h2>
+        <form id="deleteLinkForm" class="admin-form"> <label>Link ID</label> <input type="text"
+            placeholder="Enter link ID" required>
+          <button type="submit">Delete Link</button>
+        </form>
+      </section>
+
+      <!-- Section 8: Delete admin -->
+      <section class="admin-card">
+        <h2>Delete Admin</h2>
+        <form id="deleteAdminForm" class="admin-form">
+          <label>Username</label>
+          <input type="text" id="deleteAdminUser" placeholder="Enter Username" required>
+          <button type="submit" style="background-color: #dc3545;">Delete Admin</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <main id="viewData" class="view-container" style="display: none;">
+    <div class="tables-stack">
+      <section class="admin-card data-card">
+        <h2>Student Records</h2>
+        <div class="table-controls" style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+          <label><strong>Sort Students:</strong></label>
+          <select id="studentSortBtn" class="admin-select-small" onchange="handleStudentSort()">
+            <option value="original">Default (Latest First)</option>
+            <option value="enroll_asc">Enrollment (Low to High)</option>
+            <option value="enroll_desc">Enrollment (High to Low)</option>
+            <option value="name_asc">Name (A to Z)</option>
+            <option value="name_desc">Name (Z to A)</option>
+            <option value="oldest">Added (Oldest to Newest)</option>
+          </select>
+
+        </div>
+        <div class="table-wrapper">
+          <table id="studentViewTable">
+            <thead>
+              <tr>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Roll</th>
+                <th class="filter-header">
+                  Branch
+                  <button class="filter-btn" onclick="toggleFilter('branchFilter')">🔍</button>
+                  <div id="branchFilter" class="filter-dropdown" style="display:none;">
+                    <select id="branchSelect" onchange="applyFilters()">
+                      <option value="all">All Branches</option>
+                      <option value="Computer">Computer</option>
+                      <option value="Electronics And Telecommunication">Electronics And Telecommunication</option>
+                      <option value="Civil">Civil</option>
+                      <option value="Mechanical">Mechanical</option>
+                      <option value="Electrical">Electrical</option>
+                      <option value="Automobile">Automobile</option>
+                      <option value="Dress Designing">Dress Designing</option>
+                    </select>
+                  </div>
+                </th>
+                <th class="filter-header">
+                  Sem
+                  <button class="filter-btn" onclick="toggleFilter('semFilter')">🔍</button>
+                  <div id="semFilter" class="filter-dropdown" style="display:none;">
+                    <select id="semSelect" onchange="applyFilters()">
+                      <option value="all">All Semesters</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </div>
+                </th>
+                <th>Academic Year</th>
+                <th>Phone</th>
+                <th>Parent Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-card data-card">
+        <h2>Announcements List</h2>
+        <div class="table-wrapper" id="announcementTableContainer">
+          <table id="announcementViewTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Short Description</th>
+                <th>Short Description</th>
+                <th>Attachments</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-card data-card">
+        <h2>Gallery Photos</h2>
+        <div class="table-wrapper" id="photoTableContainer">
+          <table id="photoViewTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Preview</th>
+                <th>Album</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-card data-card">
+        <h2>Important Links</h2>
+        <div class="table-wrapper" id="linkTableContainer">
+          <table id="linkViewTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>link</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-card data-card">
+        <h2>Staff Records</h2>
+        <div class="table-wrapper">
+          <table id="adminViewTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="admin-card data-card" style="border-top: 4px solid #666;">
+        <h2>Ex-Students (Passed Out Records)</h2>
+
+        <section class="admin-card data-card ex-students-section">
+          <div class="card-header"
+            style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; padding-bottom: 10px;">
+            <h2>🎓 Ex-Students Archive</h2>
+            <span class="status-badge-info">Records for Passed Out Students only</span>
+          </div>
+
+          <div class="archive-search-container"
+            style="margin: 20px 0; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="exStudentSearchInput" placeholder="Enter Enrollment No. or Full Name..."
+                class="admin-input" style="flex: 1; padding: 12px; border: 2px solid #ccc; border-radius: 5px;">
+
+              <button onclick="searchExStudents()" class="admin-btn"
+                style="background: #2c3e50; color: white; padding: 0 25px; cursor: pointer; border-radius: 5px;">
+                Search Archive
+              </button>
+
+              <button onclick="clearExSearch()" class="admin-btn-outline"
+                style="padding: 0 15px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 5px;">
+                Clear
+              </button>
+            </div>
+            <small style="color: #666; margin-top: 5px; display: block;">*Press Enter to search quickly</small>
+          </div>
+
+          <div class="table-wrapper">
+            <table id="exStudentViewTable">
+              <thead style="background: #e9ecef;">
+                <tr>
+                  <th>Enrollment</th>
+                  <th>Name</th>
+                  <th>Branch</th>
+                  <th>Passing Year</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="exStudentTableBody">
+                <tr>
+                  <td colspan="7" style="text-align:center; padding: 40px; color: #999;">
+                    Search for a student to load archived results.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+  </main>
+
+  <main id="viewResults" class="view-container" style="display: none;">
+    <section class="admin-card full-page-card">
+      <h2>Academic Marks Entry</h2>
+      <div class="academic-controls">
+        <label>Branch : </label>
+        <select id="marksBranch">
+          <option value="">Select Branch</option>
+          <option value="Computer">Computer</option>
+        </select>
+        <label>Semester : </label>
+        <select id="marksSem">
+          <option value="">Select Semester</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+        <label>Academic Year</label>
+        <input type="text" id="marksYear" placeholder="Enter Acadamic year">
+
+        <button class="fetch-btn" id="loadClassBtn" onclick="loadClassForMarks()">Load Class List</button>
+      </div>
+      <div id="marksTableContainer" class="table-wrapper">
+      </div>
+    </section>
+  </main>
+
+
+
+  <script src="searchToggle.js"></script>
+  <script src="email_phone.js"></script>
+  <script src="admin_login.js"></script>
+  <script src="admin_operations.js"></script>
+  <script src="admin_data_fetch.js"></script>
+  <script src="viewSwitcher.js"></script>
+
+
+
+</body>
+
+</html>

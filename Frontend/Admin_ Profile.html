@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Profile - Government Polytechnic Dharashiv</title>
+  <link rel="stylesheet" href="Admin_Profile.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/myimage.jpeg" alt="College Logo" class="logo" />
+      <div class="college-name">Government Polytechnic Dharashiv</div>
+    </div>
+  </header>
+
+  <main class="main-area">
+    <section class="profile-section">
+      <h2 class="heading">Admin Profile</h2>
+
+      <form class="profile-form">
+
+        <!-- Name -->
+        <div class="editable-field">
+          <label>Name:</label>
+          <div class="field-wrapper">
+            <input type="text" name="name" id="adminName" disabled />
+            <button type="button" class="field-edit-btn"><img src="images/pencil.png" alt="Edit" /></button>
+          </div>
+        </div>
+
+        <!-- Username (read-only) -->
+        <label>Username:</label>
+        <input type="text" id="adminUsername" readonly />
+
+        <!-- Password (read-only) -->
+        <!-- Password (read-only with custom image toggle) -->
+<label>Password:</label>
+<div class="field-wrapper">
+  <input type="password" id="adminPassword" readonly />
+  <!-- <img src="images/eye.png" id="togglePassword" alt="Toggle Password" class="toggle-password-icon" /> -->
+</div>
+
+
+        <!-- Phone -->
+        <div class="editable-field">
+          <label>Phone:</label>
+          <div class="field-wrapper">
+            <input type="tel" name="phone" id="adminPhone" disabled />
+            <button type="button" class="field-edit-btn"><img src="images/pencil.png" alt="Edit" /></button>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="editable-field">
+          <label>Email:</label>
+          <div class="field-wrapper">
+            <input type="email" name="email" id="adminEmail" disabled />
+            <button type="button" class="field-edit-btn"><img src="images/pencil.png" alt="Edit" /></button>
+          </div>
+        </div>
+
+        <button type="submit" id="saveBtn">Save Changes</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <p>Confirm the changes?</p>
+      <div class="modal-actions">
+        <button id="confirmBtn">Yes</button>
+        <button id="cancelBtn">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="Admin_Profile.js"></script>
+</body>
+</html>
