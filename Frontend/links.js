@@ -1,6 +1,6 @@
 async function loadLinks() {
   try {
-    const res = await fetch("http://localhost:5000/api/common/links");
+    const res = await fetch("${API_BASE_URL}/common/links");
     const links = await res.json();
 
     const container = document.getElementById("linksContainer");

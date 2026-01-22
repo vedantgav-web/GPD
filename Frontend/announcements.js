@@ -14,7 +14,7 @@ function scrollToSection(id) {
 // 2. Load Data from DB
 async function loadAnnouncements() {
     try {
-        const res = await fetch("http://localhost:5000/api/announcements");
+        const res = await fetch("${API_BASE_URL}/announcements");
         allAnnouncements = await res.json();
         displayPage(1); // Initialize first page
     } catch (err) {

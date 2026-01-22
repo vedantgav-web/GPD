@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", loadGallery);
 
 async function loadGallery() {
   try {
-    const res = await fetch("http://localhost:5000/api/common/images");
+    const res = await fetch("${API_BASE_URL}/common/images");
     const data = await res.json();
 
     const albums = {};
@@ -12,7 +12,7 @@ async function loadGallery() {
       if (!item.image) return;
 
       const albumName = item.album_name && item.album_name.trim() ? item.album_name.trim() : "Other";
-      const imgPath = `http://localhost:5000/${item.image.replace(/\\/g, "/")}`;
+      const imgPath = `${IMAGE_BASE_URL}/${item.image.replace(/\\/g, "/")}`;
 
       if (!albums[albumName]) albums[albumName] = [];
       albums[albumName].push(imgPath);
@@ -21,6 +21,8 @@ async function loadGallery() {
     render3DAlbums(albums);
   } catch (error) {
     console.error("Failed to load gallery:", error);
+
+
   }
 }
 

@@ -4,7 +4,7 @@ async function studentLogin() {
   const phone_no = document.getElementById("studentPassword").value;
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/student-login", {
+    const res = await fetch("${API_BASE_URL}/auth/student-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ enrollment_no, phone_no })
@@ -29,7 +29,7 @@ async function adminLogin() {
   const password = document.getElementById("adminPassword").value;
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/staff-login", {
+    const res = await fetch("${API_BASE_URL}/auth/staff-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })

@@ -10,7 +10,7 @@ if (!enrollmentNo) {
 async function loadStudentProfile() {
   try {
 
-    const res = await fetch(`http://localhost:5000/api/getset/student/${enrollmentNo}`);
+    const res = await fetch(`${API_BASE_URL}/getset/student/${enrollmentNo}`);
     console.log("Fetch response status:", res.status);
 console.log("Fetch response ok:", res.ok);
 
@@ -135,7 +135,7 @@ confirmBtn.addEventListener('click', async () => {
 
   try {
     // 2. Send PUT request to server
-    const res = await fetch(`http://localhost:5000/api/getset/student-update/${enrollmentNo}`, {
+    const res = await fetch(`${API_BASE_URL}/getset/student-update/${enrollmentNo}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData)

@@ -32,7 +32,7 @@ async function loadLoggedInResult(enrollment) {
     const summaryContainer = document.getElementById('resultSummaryCards');
 
     try {
-        const res = await fetch(`http://localhost:5000/api/results/student/${enrollment}`);
+        const res = await fetch(`${API_BASE_URL}/results/student/${enrollment}`);
         const data = await res.json();
 
         if (!data || !data.marks || data.marks.length === 0) {

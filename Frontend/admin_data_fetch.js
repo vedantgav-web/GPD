@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // ONE fetch call to get all data
-        const res = await fetch("http://localhost:5000/api/admin-view/all");
+        const res = await fetch("${API_BASE_URL}/admin-view/all");
         const data = await res.json();
 
         // Populate all tables using the helper function
@@ -163,8 +163,8 @@ async function loadClassForMarks() {
     if (!branch || !sem || !year) return alert("Please select all fields");
 
     const [colRes, stuRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/results/get-columns?branch=${branch}&sem=${sem}`),
-        fetch(`http://localhost:5000/api/results/get-class?branch=${branch}&sem=${sem}&year=${year}`)
+        fetch(`${API_BASE_URL}/results/get-columns?branch=${branch}&sem=${sem}`),
+        fetch(`${API_BASE_URL}/results/get-class?branch=${branch}&sem=${sem}&year=${year}`)
     ]);
 
     cachedColumns = await colRes.json();
@@ -349,7 +349,7 @@ async function submitAllMarks() {
 
     try {
         // 2. API Call
-        const res = await fetch("http://localhost:5000/api/results/save-marks", {
+        const res = await fetch("${API_BASE_URL}/results/save-marks", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ branch, sem, year, allData })
@@ -394,7 +394,7 @@ async function searchExStudents() {
 
     try {
         // Calling your NEW router endpoint
-        const response = await fetch(`http://localhost:5000/api/exstudents/search-ex?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`${API_BASE_URL}/exstudents/search-ex?query=${encodeURIComponent(query)}`);
         const results = await response.json();
 
         if (results.length === 0) {

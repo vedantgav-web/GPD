@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                const res = await fetch("http://localhost:5000/api/students/addStudent", {
+                const res = await fetch("${API_BASE_URL}/students/addStudent", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(studentData)
@@ -71,7 +71,7 @@ if (updateStudentForm) {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/students/updateStudent", {
+            const res = await fetch("${API_BASE_URL}/students/updateStudent", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updateData)
@@ -109,7 +109,7 @@ if (deleteStudentForm) {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/api/students/deleteStudent/${enrollmentNo}`, {
+            const res = await fetch(`${API_BASE_URL}/students/deleteStudent/${enrollmentNo}`, {
                 method: "DELETE"
             });
 
@@ -143,7 +143,7 @@ if (addAdminForm) {
         };
 
         try {
-            const res = await fetch("http://localhost:5000/api/admins/addAdmin", { // Adjust route if needed
+            const res = await fetch("${API_BASE_URL}/admins/addAdmin", { // Adjust route if needed
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(adminData)
@@ -174,7 +174,7 @@ if (updateAdminForm) {
         };
 
         try {
-            const res = await fetch("http://localhost:5000/api/admins/updateAdmin", {
+            const res = await fetch("${API_BASE_URL}/admins/updateAdmin", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updateData)
@@ -206,7 +206,7 @@ if (deleteAdminForm) {
 
         try {
             // Updated fetch to send username in the URL path
-            const res = await fetch(`http://localhost:5000/api/admins/deleteAdmin/${username}`, {
+            const res = await fetch(`${API_BASE_URL}/admins/deleteAdmin/${username}`, {
                 method: "DELETE"
             });
 
@@ -246,7 +246,7 @@ if (addAnnouncementForm) {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/content/announcement/add", {
+            const res = await fetch("${API_BASE_URL}/content/announcement/add", {
                 method: "POST",
                 body: formData // No Content-Type header needed
             });
@@ -271,7 +271,7 @@ if (deleteAnnouncementForm) {
         const id = deleteAnnouncementForm.querySelector('input').value;
         if (!confirm("Delete this announcement?")) return;
 
-        const res = await fetch(`http://localhost:5000/api/content/announcement/delete/${id}`, { method: "DELETE" });
+        const res = await fetch(`${API_BASE_URL}/content/announcement/delete/${id}`, { method: "DELETE" });
         const result = await res.json();
         alert(result.message);
         if (res.ok) deleteAnnouncementForm.reset();
@@ -288,7 +288,7 @@ if (addLinkForm) {
             link: addLinkForm.querySelector('input[type="url"]').value
         };
 
-        const res = await fetch("http://localhost:5000/api/content/link/add", {
+        const res = await fetch("${API_BASE_URL}/content/link/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -307,7 +307,7 @@ if (deleteLinkForm) {
         const id = deleteLinkForm.querySelector('input').value;
         if (!confirm("Delete this link?")) return;
 
-        const res = await fetch(`http://localhost:5000/api/content/link/delete/${id}`, { method: "DELETE" });
+        const res = await fetch(`${API_BASE_URL}/content/link/delete/${id}`, { method: "DELETE" });
         const result = await res.json();
         alert(result.message);
         if (res.ok) deleteLinkForm.reset();
@@ -341,7 +341,7 @@ if (addPhotoForm) {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/gallery/add", {
+            const res = await fetch("${API_BASE_URL}/gallery/add", {
                 method: "POST",
                 body: formData
             });
@@ -364,7 +364,7 @@ if (deletePhotoForm) {
 
         if (!confirm("Are you sure you want to delete this photo?")) return;
 
-        const res = await fetch(`http://localhost:5000/api/gallery/delete/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/gallery/delete/${id}`, {
             method: "DELETE"
         });
 
