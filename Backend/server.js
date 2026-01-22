@@ -20,14 +20,6 @@ import alumniRoutes from './routes/alumniRoutes.js';
 dotenv.config();
 const app = express();
 
-// --- Ensure Upload Directories Exist ---
-const dirs = ['./uploads/announcements', './uploads/gallery'];
-dirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
-
 // --- Middleware ---
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -49,6 +41,7 @@ app.use("/api/results", resultRoutes);
 app.use("/api/content", contentRoutes); // For Announcements and Links
 app.use("/api/gallery", galleryRoutes); // For Photos/Images only
 app.use('/api/exstudents', alumniRoutes);
+export default app;
 
 const PORT = process.env.SERVER_PORT || 5000;
 app.listen(PORT, () => {
