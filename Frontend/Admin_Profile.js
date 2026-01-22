@@ -19,7 +19,7 @@ const editedFields = new Set();
 
 async function loadStaffProfile() {
     try {
-        const res = await fetch(`http://localhost:5000/api/getset/staff/${username}`);
+        const res = await fetch(`${API_BASE_URL}/getset/staff/${username}`);
         
         if (!res.ok) {
             alert("Could not load profile data");
@@ -104,7 +104,7 @@ confirmBtn.addEventListener('click', async () => {
 
   try {
     const res = await fetch(
-      `http://localhost:5000/api/getset/staff-update/${username}`,
+      `${API_BASE_URL}/getset/staff-update/${username}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -149,17 +149,4 @@ window.addEventListener('click', (e) => {
   }
 });
 
-// Toggle password visibility using custom image
-// const togglePasswordImg = document.getElementById('togglePassword');
-// const passwordInput = document.getElementById('adminPassword');
-
-// if (togglePasswordImg && passwordInput) {
-//   let isVisible = false;
-
-//   togglePasswordImg.addEventListener('click', () => {
-//     isVisible = !isVisible;
-//     passwordInput.type = isVisible ? 'text' : 'password';
-
-//   });
-// }
 
