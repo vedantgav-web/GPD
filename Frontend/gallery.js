@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", loadGallery);
 
 async function loadGallery() {
   try {
-    const res = await fetch("${API_BASE_URL}/common/images");
+    const res = await fetch(`${API_BASE_URL}/common/images`);
     const data = await res.json();
 
     const albums = {};
