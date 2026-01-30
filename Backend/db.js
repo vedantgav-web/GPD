@@ -1,7 +1,7 @@
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 
-// 1. Only run dotenv locally. Vercel provides env vars automatically.
+// ONLY load dotenv if we are NOT on Vercel (production)
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
 }
@@ -14,7 +14,7 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT || 21761,
   waitForConnections: true,
   connectionLimit: 10,
-  // 2. Aiven REQUIREMENT: You MUST include this SSL block
+  // Aiven requires SSL for cloud connections
   ssl: {
     rejectUnauthorized: false,
   }
