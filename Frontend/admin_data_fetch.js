@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // ONE fetch call to get all data
-        const res = await fetch("${API_BASE_URL}/admin-view/all");
+        const res = await fetch(`${API_BASE_URL}/admin-view/all`);
         const data = await res.json();
 
         // Populate all tables using the helper function
@@ -349,7 +349,7 @@ async function submitAllMarks() {
 
     try {
         // 2. API Call
-        const res = await fetch("${API_BASE_URL}/results/save-marks", {
+        const res = await fetch(`${API_BASE_URL}/results/save-marks`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ branch, sem, year, allData })
