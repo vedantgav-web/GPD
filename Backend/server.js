@@ -43,7 +43,9 @@ app.use("/api/gallery", galleryRoutes); // For Photos/Images only
 app.use('/api/exstudents', alumniRoutes);
 export default app;
 
-const PORT = process.env.SERVER_PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.SERVER_PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running locally on port ${PORT}`);
+    });
+}
