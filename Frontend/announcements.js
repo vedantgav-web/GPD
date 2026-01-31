@@ -70,7 +70,7 @@ function renderAnnouncements(list) {
             const files = ann.attachments.split(",");
             files.forEach(filePath => {
                 const cleanPath = filePath.replace(/\\/g, '/');
-                const fileUrl = `localhost:5000/${cleanPath}`;
+                const fileUrl = `http://localhost:5000/${cleanPath}`;
                 const fileName = cleanPath.split('/').pop();
 
                 const a = document.createElement("a");
@@ -151,7 +151,7 @@ function renderPagination() {
     document.getElementById("announcementsContainer").after(paginationContainer);
 }
 
-// Search Logicf
+// Search Logic
 document.getElementById("searchBox").addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
     const filtered = allAnnouncements.filter(ann =>
