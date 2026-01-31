@@ -12,7 +12,14 @@ async function loadGallery() {
       if (!item.image) return;
 
       const albumName = item.album_name && item.album_name.trim() ? item.album_name.trim() : "Other";
-      const imgPath = `${IMAGE_BASE_URL}/${item.image.replace(/\\/g, "/")}`;
+      
+      // Check if it's a new Cloudinary URL (starts with http) or an old local path
+      const isCloudinary = item.image.startsWith('http');
+      
+      // If it's Cloudinary, use it directly. If local, apply the base URL fix.
+      const imgPath = isCloudinary 
+        ? item.image 
+        : `${IMAGE_BASE_URL}/${item.image.replace(/\\/g, "/")}`;
 
       if (!albums[albumName]) albums[albumName] = [];
       albums[albumName].push(imgPath);
@@ -21,8 +28,6 @@ async function loadGallery() {
     render3DAlbums(albums);
   } catch (error) {
     console.error("Failed to load gallery:", error);
-
-
   }
 }
 
