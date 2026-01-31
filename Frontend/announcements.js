@@ -70,7 +70,7 @@ function renderAnnouncements(list) {
             const files = ann.attachments.split(",");
             files.forEach(filePath => {
                 const cleanPath = filePath.replace(/\\/g, '/');
-                const fileUrl = `http://localhost:5000/${cleanPath}`;
+                const fileUrl = `${API_BASE_URL}/${cleanPath}`;
                 const fileName = cleanPath.split('/').pop();
 
                 const a = document.createElement("a");
