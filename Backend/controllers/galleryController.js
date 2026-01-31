@@ -1,40 +1,27 @@
 import pool from "../db.js";
 import multer from "multer";
-import path from "path";
-import fs from "fs"; // Import the File System module
 
-// 1. Configure Storage with a "Duplicate Check"
-const storage = multer.diskStorage({
-    destination: "./uploads/gallery/",
-    filename: (req, file, cb) => {
-        const fullPath = path.join("./uploads/gallery/", file.originalname);
+// FIX: Use memoryStorage. Vercel blocks diskStorage and fs.existsSync on local folders.
+const storage = multer.memoryStorage();
 
-        // Check if the file physically exists on the server
-        if (fs.existsSync(fullPath)) {
-            // Passing an error to the callback stops the upload
-            return cb(new Error(`File already exists: ${file.originalname}`));
-        }
-
-        // If it doesn't exist, use the original name
-        cb(null, file.originalname);
-    }
-});
-
-// 2. Initialize Multer
 export const uploadGallery = multer({ storage });
 
-// 3. Add Images Logic
 export const addImage = async (req, res) => {
     const files = req.files;
     const { title, album_name } = req.body;
 
     if (!files || files.length === 0) {
-        return res.status(400).json({ message: "No photos selected or files already exist." });
+        return res.status(400).json({ message: "No photos selected." });
     }
 
     try {
         const queries = files.map(file => {
-            return pool.query("INSERT INTO image (image, title,album_name) VALUES (?,?, ?)", [file.path, title || null, album_name || 'General']);
+            // Since we can't save the file path on Vercel's disk, 
+            // we save the original name as a reference for your demo.
+            return pool.query(
+                "INSERT INTO image (image, title, album_name) VALUES (?, ?, ?)", 
+                [file.originalname, title || null, album_name || 'General']
+            );
         });
 
         await Promise.all(queries);
@@ -44,9 +31,7 @@ export const addImage = async (req, res) => {
         res.status(500).json({ message: "Database error" });
     }
 };
-// ... (Keep deleteImage as it is)
 
-// 3. Delete Image
 export const deleteImage = async (req, res) => {
     const { id } = req.params;
     try {
