@@ -2,28 +2,23 @@ import pool from "../db.js";
 import multer from "multer";
 import path from "path";
 
-// Configure Multer Storage
-const storage = multer.diskStorage({
-  destination: "./uploads/announcements/", 
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Rename to avoid duplicates
-  }
-});
-
+const storage = multer.memoryStorage(); 
 
 export const upload = multer({ storage });
 
 export const addAnnouncement = async (req, res) => {
     const { title, short_description, long_description } = req.body;
-    // req.files will contain the uploaded attachments
-    const attachmentPath = req.files && req.files.length > 0 ? req.files[0].path : null;
+    
+    // Since we use memoryStorage, req.files[0] contains a 'buffer' instead of a 'path'
+    // For your college demo, we can store a placeholder or skip the path if not using a cloud bucket
+    const attachmentName = req.files && req.files.length > 0 ? req.files[0].originalname : null;
 
     try {
         await pool.query(
             "INSERT INTO announcements (title, short_description, long_description, attachments) VALUES (?, ?, ?, ?)",
-            [title, short_description, long_description, attachmentPath]
+            [title, short_description, long_description, attachmentName]
         );
-        res.status(201).json({ message: "Announcement published with attachment!" });
+        res.status(201).json({ message: "Announcement published!" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Error saving to database" });
