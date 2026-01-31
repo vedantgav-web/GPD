@@ -41,60 +41,36 @@ function displayPage(page) {
 }
 
 // 4. THE CORE RENDERING FUNCTION (MUST BE UNCOMMENTED)
-function renderAnnouncements(list) {
-    const container = document.getElementById("announcementsContainer");
+// --- Updated Handle Attachments Section ---
+if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
+    const attachmentsDiv = document.createElement("div");
+    attachmentsDiv.classList.add("attachments-section");
+    attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
 
-    if (!list || list.length === 0) {
-        container.innerHTML = "<p>No announcements available</p>";
-        return;
-    }
+    // Cloudinary stores single URLs, but if you eventually allow multiple, 
+    // we split by comma just in case.
+    const files = ann.attachments.split(",");
+    
+    files.forEach(fileUrl => {
+        // 1. Logic Check: If it's a Cloudinary URL, use it directly. 
+        // If it's an old local path, we handle it gracefully.
+        const isCloudinary = fileUrl.startsWith('http');
+        const finalUrl = isCloudinary ? fileUrl : `${API_BASE_URL}/${fileUrl.replace(/\\/g, '/')}`;
 
-    list.forEach(ann => {
-        const card = document.createElement("div");
-        card.classList.add("announcement");
+        // 2. Get a nice display name
+        const fileName = isCloudinary ? "View Attachment" : fileUrl.split(/[\\/]/).pop();
 
-        card.innerHTML = `
-            <div class="title">${ann.title}</div>
-            <div class="short-desc">${ann.short_description}</div>
-            <div class="long-desc" style="display: none;">${ann.long_description || ''}</div>
-            <div class="show-more" style="cursor:pointer; color: #007bff;">Show more</div>
-            <div class="date">${new Date(ann.created_at).toLocaleDateString()}</div>
-        `;
-
-        // Handle Attachments
-        if (ann.attachments && ann.attachments !== 'None') {
-            const attachmentsDiv = document.createElement("div");
-            attachmentsDiv.classList.add("attachments-section");
-            attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
-
-            const files = ann.attachments.split(",");
-            files.forEach(filePath => {
-                const cleanPath = filePath.replace(/\\/g, '/');
-                const fileUrl = `http://localhost:5000/${cleanPath}`;
-                const fileName = cleanPath.split('/').pop();
-
-                const a = document.createElement("a");
-                a.href = fileUrl;
-                a.textContent = fileName;
-                a.target = "_blank";
-                a.style.marginLeft = "10px";
-                a.style.textDecoration = "underline";
-                attachmentsDiv.appendChild(a);
-            });
-            card.appendChild(attachmentsDiv);
-        }
-
-        // Show More/Less Logic
-        const showMoreBtn = card.querySelector(".show-more");
-        const longDesc = card.querySelector(".long-desc");
-        showMoreBtn.addEventListener("click", () => {
-            const isHidden = longDesc.style.display === "none";
-            longDesc.style.display = isHidden ? "block" : "none";
-            showMoreBtn.textContent = isHidden ? "Show less" : "Show more";
-        });
-
-        container.appendChild(card);
+        const a = document.createElement("a");
+        a.href = finalUrl;
+        a.textContent = fileName;
+        a.target = "_blank"; // Opens PDF/Image in new tab
+        a.style.marginLeft = "10px";
+        a.style.textDecoration = "underline";
+        a.style.color = "#007bff";
+        
+        attachmentsDiv.appendChild(a);
     });
+    card.appendChild(attachmentsDiv);
 }
 
 // 5. Render Pagination UI
