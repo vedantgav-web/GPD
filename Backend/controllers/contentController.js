@@ -1,27 +1,52 @@
 import pool from "../db.js";
 import multer from "multer";
-import path from "path";
+import { v2 as cloudinary } from 'cloudinary';
 
-const storage = multer.memoryStorage(); 
-
+// 1. Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 export const upload = multer({ storage });
 
 export const addAnnouncement = async (req, res) => {
     const { title, short_description, long_description } = req.body;
     
-    // Since we use memoryStorage, req.files[0] contains a 'buffer' instead of a 'path'
-    // For your college demo, we can store a placeholder or skip the path if not using a cloud bucket
-    const attachmentName = req.files && req.files.length > 0 ? req.files[0].originalname : null;
+    // Check if a file was uploaded (Multer puts it in req.files)
+    const file = req.files && req.files.length > 0 ? req.files[0] : null;
 
     try {
+        let attachmentUrl = null;
+
+        if (file) {
+            // 3. Upload to Cloudinary using a Buffer Stream
+            const uploadResult = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { 
+                        folder: "announcements",
+                        resource_type: "auto" // CRITICAL: This allows PDF, Image, and DOCX
+                    },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                stream.end(file.buffer);
+            });
+            attachmentUrl = uploadResult.secure_url; // This is the full Cloud Link
+        }
+
+        // 4. Save the full URL to Aiven MySQL
         await pool.query(
             "INSERT INTO announcements (title, short_description, long_description, attachments) VALUES (?, ?, ?, ?)",
-            [title, short_description, long_description, attachmentName]
+            [title, short_description, long_description, attachmentUrl]
         );
-        res.status(201).json({ message: "Announcement published!" });
+
+        res.status(201).json({ message: "Announcement published successfully!" });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Error saving to database" });
+        console.error("Upload/DB Error:", err);
+        res.status(500).json({ message: "Error saving announcement" });
     }
 };
 
