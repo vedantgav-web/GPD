@@ -1,28 +1,5 @@
 import pool from "../db.js";
 
-/* ================= STAFF LOGIN ================= */
-// export const staffLogin = async (req, res) => {
-//   const { username, password } = req.body;
-
-//   try {
-//     const [rows] = await pool.query(
-//       "SELECT * FROM staff WHERE username = ? AND password = ?",
-//       [username, password]
-//     );
-
-//     if (rows.length === 0) {
-//       return res.status(401).json({ message: "Invalid Credentials" });
-//     }
-
-//     res.json({
-//       message: "Staff Login Successful",
-//       staff: rows[0]
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server Error" });
-//   }
-// };
 
 import bcrypt from "bcryptjs"; // Make sure this is installed: npm install bcryptjs
 
