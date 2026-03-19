@@ -1,7 +1,27 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "Backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "Frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/Backend/server.js" },
-    { "source": "/(.*)", "destination": "/Frontend/$1" }
+    { 
+      "source": "/api/(.*)", 
+      "destination": "/Backend/server.js" 
+    },
+    { 
+      "source": "/uploads/(.*)", 
+      "destination": "https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/$1" 
+    },
+    { 
+      "source": "/(.*)", 
+      "destination": "/Frontend/$1" 
+    }
   ]
 }
