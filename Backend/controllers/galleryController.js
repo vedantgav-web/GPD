@@ -22,22 +22,26 @@ export const addImage = async (req, res) => {
 
     try {
         // 1. Upload all files to Cloudinary
-        const uploadPromises = files.map(file => {
-            return new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream(
-                    { 
-                        folder: "college_gallery",
-                        use_filename: true,
-                        unique_filename: false // Keeps your 'college1.jpg' format
-                    },
-                    (error, result) => {
-                        if (error) reject(error);
-                        else resolve(result.secure_url);
-                    }
-                );
-                stream.end(file.buffer);
-            });
-        });
+       const uploadPromises = files.map(file => {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { 
+                folder: "college_gallery",
+                // Remove use_filename and unique_filename for now to fix the signature
+                // Cloudinary will use its default preset settings
+            },
+            (error, result) => {
+                if (error) {
+                    console.error("Cloudinary Stream Error:", error);
+                    reject(error);
+                } else {
+                    resolve(result.secure_url);
+                }
+            }
+        );
+        stream.end(file.buffer);
+    });
+});
 
         const urls = await Promise.all(uploadPromises);
 
