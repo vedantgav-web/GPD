@@ -1,4 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
+import multer from "multer"; // <--- ADD THIS LINE
+import pool from "../db.js"; // Ensure this path is correct
 
 // Force Vercel to use the system environment variables directly
 cloudinary.config({
