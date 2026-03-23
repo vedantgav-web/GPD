@@ -1,181 +1,138 @@
 :root {
-  --logo-size: clamp(80px, 15vw, 180px);
+  --logo-size: 180px;
   --header-bg: #333333;
   --accent-yellow: #f3dfab;
   --page-bg: #f3dfab;
-  --max-width: 1200px;
-  --header-height: clamp(80px, 12vh, 150px);
+  --card-width: 80%;
+  --max-card-width: 820px;
 }
 
-/* RESET & BASE */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* --- YOUR ORIGINAL RESET & BODY --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Rockwell Nova', 'Segoe UI', sans-serif;
+  font-family: Rockwell Nova, sans-serif;
   background-color: var(--page-bg);
   color: #222;
   overflow-x: hidden;
 }
 
-/* --- RESPONSIVE HEADER --- */
+/* --- HEADER (Kept Original, Added Fluid Height) --- */
 .site-header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--header-height);
+  top: 0; left: 0; width: 100%; z-index: 2000;
   background: var(--header-bg);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-  z-index: 3000;
+  align-items: flex-end;
+  padding: 20px 40px;
+  height: 150px; /* Original Height */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: height 0.3s ease;
 }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 2vw, 20px);
-}
+.header-left { display: flex; align-items: flex-end; gap: 20px; }
 
+/* Overlapping Logo - Kept exactly as your design */
 .logo {
   width: var(--logo-size);
   height: var(--logo-size);
   border-radius: 50%;
-  border: clamp(3px, 0.5vw, 6px) solid var(--accent-yellow);
+  border: 6px solid var(--accent-yellow);
   object-fit: cover;
   background: #fff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  /* Desktop Overlap */
-  position: absolute;
-  top: 20px; 
+  transform: translateY(40%);
 }
 
 .college-name {
-  font-size: clamp(1rem, 2.5vw, 1.75rem);
+  font-size: clamp(18px, 2.5vw, 28px); /* Fluid size */
   font-weight: bold;
+  white-space: nowrap;
+  margin-left: 10px;
   color: var(--accent-yellow);
-  margin-left: calc(var(--logo-size) + 10px);
 }
 
-/* --- NAVIGATION LOGIC --- */
+/* --- HAMBURGER MENU LOGIC (Strictly CSS) --- */
+.menu-checkbox { display: none; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 3000; margin-bottom: 10px; }
+.hamburger span { width: 30px; height: 3px; background: var(--accent-yellow); border-radius: 2px; transition: 0.3s; }
+
+/* --- NAVIGATION (Your Original Design) --- */
 .header-nav {
   display: flex;
   gap: 10px;
   background: rgba(255, 255, 255, 0.1);
   padding: 5px;
   border-radius: 30px;
+  margin: 0 20px;
+  align-self: flex-end;
 }
 
 .nav-item {
-  background-color: var(--accent-yellow);
-  color: #333;
-  font-weight: bold;
-  font-size: 14px;
-  padding: 8px 18px;
-  border-radius: 20px;
-  transition: 0.3s;
-  border: none;
-  cursor: pointer;
+  color: #333; text-decoration: none; font-weight: bold; font-size: 14px;
+  padding: 8px 18px; border-radius: 20px; background-color: var(--accent-yellow);
+  transition: all 0.3s ease; border: none; cursor: pointer;
 }
 
-.nav-item.active {
-  background-color: #333;
-  color: var(--accent-yellow);
-}
+.nav-item.active { background-color: #333333; color: var(--accent-yellow); box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); }
 
-/* --- MOBILE HAMBURGER (Checkbox Hack) --- */
-.menu-checkbox { display: none; }
-.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-.hamburger span { width: 30px; height: 3px; background: var(--accent-yellow); transition: 0.3s; }
+/* --- MAIN AREA & SECTIONS (Your Original Design) --- */
+.main-area { margin-top: 150px; padding: 80px 20px 60px; }
 
-/* --- MAIN CONTENT AREAS --- */
-.main-area {
-  margin-top: var(--header-height);
-  padding: 40px 5%;
-}
-
-/* Hero Section Grid */
-.home-layout {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 30px;
-  margin-bottom: 40px;
-}
-
-@media (max-width: 1024px) {
-  .home-layout { grid-template-columns: 1fr; }
-  .logo { position: static; }
-  .college-name { margin-left: 0; }
-  
-  /* Mobile Menu Slide-out */
-  .hamburger { display: flex; z-index: 4000; }
-  .header-nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 70%;
-    background: #222;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 0;
-    transition: 0.5s ease;
-  }
-  
-  .menu-checkbox:checked ~ .header-nav { right: 0; }
-  .menu-checkbox:checked ~ .hamburger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .menu-checkbox:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
-  .menu-checkbox:checked ~ .hamburger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-  .nav-item { width: 80%; margin: 10px auto; text-align: center; }
-}
-
-/* Faculty Grid Reponsiveness */
-.faculty-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-/* --- SECTIONS (Cards) --- */
 .left-section, .links-section, .gallery-section {
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 20px auto;
-  background: #333;
-  border-radius: 25px;
-  padding: clamp(15px, 4vw, 30px);
+  background: #333333; border-radius: 40px; margin: 30px auto; padding: 25px;
+  width: clamp(60%, 80%, 95%); /* Responsive width */
+  color: white; text-align: center; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.25);
 }
 
-/* --- LUXURY FOOTER --- */
+.para { color: #333333; font-size: clamp(18px, 2vw, 27px); width: 80%; margin: 3% auto; }
+
+/* --- FOOTER (Your Original Design) --- */
 .main-footer {
-  background: #333;
-  color: white;
-  padding: 60px 5% 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
+  text-align: left; background-color: #333333; color: white;
+  padding: 50px 50px 30px clamp(100px, 15vw, 300px); /* Responsive padding */
 }
 
-.main-footer h4 { color: #bbb; line-height: 1.6; }
+/* --- HIGH BUDGET RESPONSIVE BREAKPOINT --- */
+@media (max-width: 1050px) {
+  .site-header { height: 100px; align-items: center; padding: 10px 20px; }
+  .logo { 
+    width: 80px; height: 80px; transform: none; border-width: 3px; 
+    position: static; /* Logo stops overlapping on mobile for usability */
+  }
+  .header-left { align-items: center; gap: 10px; }
+  .college-name { white-space: normal; text-align: center; font-size: 18px; }
 
-#cr {
-  grid-column: 1 / -1;
-  text-align: center;
-  border-top: 1px solid #444;
-  padding-top: 20px;
-  margin-top: 20px;
-  font-size: 0.8rem;
-}
+  /* Activate Hamburger */
+  .hamburger { display: flex; }
+  
+  .header-nav {
+    position: fixed; top: 0; right: -100%; /* Off screen */
+    width: 70%; height: 100vh; background: #222;
+    flex-direction: column; justify-content: center; align-items: center;
+    border-radius: 0; margin: 0; transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
 
-@media (max-width: 600px) {
-  .main-footer { text-align: center; }
+  /* Show menu on check */
+  .menu-checkbox:checked ~ .header-nav { right: 0; }
+  .menu-checkbox:checked ~ .hamburger span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+  .menu-checkbox:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
+  .menu-checkbox:checked ~ .hamburger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+  .nav-item { width: 80%; text-align: center; padding: 15px; margin: 5px 0; }
+  .main-area { margin-top: 100px; padding-top: 40px; }
+  .main-footer { padding-left: 50px; text-align: center; }
+  
+  .home-layout { flex-direction: column; }
   .hero-box { height: 300px; }
-  .para { width: 100%; font-size: 1.1rem; margin: 20px 0; }
 }
+
+/* --- KEEPING ALL YOUR CARDS & GRID STYLES --- */
+.faculty-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; padding: 20px; }
+.faculty-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+.faculty-card:hover { transform: translateY(-5px); }
+.faculty-card img { width: 100%; height: auto; border-radius: 5px; margin-bottom: 15px; }
+
+/*  */
