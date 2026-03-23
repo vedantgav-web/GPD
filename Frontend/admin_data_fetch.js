@@ -29,10 +29,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     <td>${a.title}</td>
     <td>${a.short_description}</td>
     <td>${a.long_description || '-'}</td>
-    <td>${a.attachments || 'No files'}</td>
+   
     <td>${new Date(a.created_at).toLocaleDateString()}</td>
 `);
-        renderTable("photoViewTable", data.photos, (p) => `<td>${p.image_id}</td><td>${p.title || 'Untitled'}</td><td><img src="http://localhost:5000/${p.image.replace(/\\/g, '/')}" class="table-preview-img"></td><td>${p.album_name || 'Untitled'}</td>`);
+        renderTable("photoViewTable", data.photos, (p) => `<td>${p.image_id}</td><td>${p.title || 'Untitled'}</td><td>
+        <img src="${p.image}" class="table-preview-img" alt="${p.title}" 
+             onerror="this.src='https://via.placeholder.com/80?text=Error'">
+    </td><td>${p.album_name || 'Untitled'}</td>`);
         renderTable("linkViewTable", data.links, (l) => `<td>${l.link_id}</td><td>${l.name}</td><td>${l.link}</td>`);
 
         // Change data.admins to data.staff
