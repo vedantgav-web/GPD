@@ -60,26 +60,43 @@ function renderAnnouncements(items) {
         `;
 
         // --- Handle Attachments Section ---
-      
+        if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
+    const attachmentsDiv = document.createElement("div");
+    attachmentsDiv.classList.add("attachments-section");
+    attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
 
-        // Inside your renderAnnouncements loop
-if (ann.attachments) {
+    // Split by comma in case there are multiple files
     const files = ann.attachments.split(",");
     
     files.forEach(fileUrl => {
+        // Clean the URL string (removes accidental spaces)
+        const finalUrl = fileUrl.trim();
+        if (!finalUrl) return;
+
+        // Smart Label: Detect if it's a PDF or Image
+        const isPdf = finalUrl.toLowerCase().endsWith('.pdf');
+        const fileName = isPdf ? "📄 View PDF" : "🖼️ View Image";
+
         const a = document.createElement("a");
-        
-        // The fileUrl from DB now contains '.../auto/upload/filename.ext'
-        a.href = fileUrl; 
+        a.href = finalUrl;
+        a.textContent = fileName;
         a.target = "_blank"; 
+        a.style.marginLeft = "15px";
+        a.style.fontWeight = "500";
+        a.style.color = "#007bff";
+        a.style.textDecoration = "none";
         
-        // Logic to show a nice name based on extension
-        const isPdf = fileUrl.toLowerCase().endsWith('.pdf');
-        a.textContent = isPdf ? "View PDF" : "View Image";
-        
+        // Add a hover effect via JS or your CSS file
+        a.onmouseover = () => a.style.textDecoration = "underline";
+        a.onmouseout = () => a.style.textDecoration = "none";
+
         attachmentsDiv.appendChild(a);
     });
+    card.appendChild(attachmentsDiv);
 }
+      
+
+
 
         container.appendChild(card);
     });
