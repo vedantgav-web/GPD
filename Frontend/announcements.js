@@ -60,31 +60,26 @@ function renderAnnouncements(items) {
         `;
 
         // --- Handle Attachments Section ---
-        if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
-            const attachmentsDiv = document.createElement("div");
-            attachmentsDiv.classList.add("attachments-section");
-            attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
+      
 
-            const files = ann.attachments.split(",");
-            
-            files.forEach(fileUrl => {
-                const isCloudinary = fileUrl.startsWith('http');
-                // Use API_BASE_URL only for old local files
-                const finalUrl = isCloudinary ? fileUrl : `${API_BASE_URL}/${fileUrl.replace(/\\/g, '/')}`;
-                const fileName = isCloudinary ? "View Attachment" : fileUrl.split(/[\\/]/).pop();
-
-                const a = document.createElement("a");
-                a.href = finalUrl;
-                a.textContent = fileName;
-                a.target = "_blank"; 
-                a.style.marginLeft = "10px";
-                a.style.textDecoration = "underline";
-                a.style.color = "#007bff";
-                
-                attachmentsDiv.appendChild(a);
-            });
-            card.appendChild(attachmentsDiv);
-        }
+        // Inside your renderAnnouncements loop
+if (ann.attachments) {
+    const files = ann.attachments.split(",");
+    
+    files.forEach(fileUrl => {
+        const a = document.createElement("a");
+        
+        // The fileUrl from DB now contains '.../auto/upload/filename.ext'
+        a.href = fileUrl; 
+        a.target = "_blank"; 
+        
+        // Logic to show a nice name based on extension
+        const isPdf = fileUrl.toLowerCase().endsWith('.pdf');
+        a.textContent = isPdf ? "View PDF" : "View Image";
+        
+        attachmentsDiv.appendChild(a);
+    });
+}
 
         container.appendChild(card);
     });
