@@ -47,62 +47,50 @@ function displayPage(page) {
 // 4. THE CORE RENDERING FUNCTION (Fixed 'ann' scoping)
 function renderAnnouncements(items) {
     const container = document.getElementById("announcementsContainer");
+    container.innerHTML = ""; // Clear container before rendering
 
     items.forEach(ann => {
         const card = document.createElement("div");
         card.classList.add("announcement-card");
 
         card.innerHTML = `
-            <h3>${ann.title}</h3>
-            <p class="short-desc">${ann.short_description}</p>
-            <p class="long-desc">${ann.long_description || ""}</p>
+            <h2>${ann.title}</h2>
+            <h4>${ann.short_description}</h4>
+            <p>${ann.long_description || ""}</p>
             <small>Posted on: ${new Date(ann.created_at).toLocaleDateString()}</small>
         `;
 
-        // --- Handle Attachments Section ---
+        // IMPORTANT: Create a FRESH div for THIS announcement's attachments
         if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
-    const attachmentsDiv = document.createElement("div");
-    attachmentsDiv.classList.add("attachments-section");
-    attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
+            const attachmentsDiv = document.createElement("div");
+            attachmentsDiv.classList.add("attachments-section");
+            attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
 
-    // Split by comma in case there are multiple files
-    const files = ann.attachments.split(",");
-    
-    // Inside your renderAnnouncements function
-items.forEach(ann => {
-    // ... existing card creation logic ...
-
-    if (ann.attachments && ann.attachments !== 'None') {
-        const files = ann.attachments.split(",");
-        
-        files.forEach(fileUrl => {
-            const url = fileUrl.trim();
-            if (!url) return;
-
-            const a = document.createElement("a");
-            a.href = url; // The full working link from the DB
-            a.target = "_blank"; 
+            const files = ann.attachments.split(",");
             
-            // Nice label logic
-            const isPdf = url.toLowerCase().endsWith('.pdf');
-            a.textContent = isPdf ? "📄 View PDF" : "🖼️ View Image";
-            
-            a.style.marginLeft = "15px";
-            a.style.color = "#007bff";
-            a.style.fontWeight = "bold";
-            
-            attachmentsDiv.appendChild(a);
-        });
-        card.appendChild(attachmentsDiv);
-    }
-    container.appendChild(card);
-});
-    card.appendChild(attachmentsDiv);
-}
-      
+            files.forEach(fileUrl => {
+                const url = fileUrl.trim();
+                if (!url) return;
 
+                const a = document.createElement("a");
+                a.href = url;
+                a.target = "_blank"; 
+                
+                const isPdf = url.toLowerCase().endsWith('.pdf');
+                a.innerHTML = isPdf ? "📄 View PDF" : "🖼️ View Image";
+                
+                // Add your styles
+                a.style.marginLeft = "10px";
+                
+                // Append the link ONLY to the current announcement's div
+                attachmentsDiv.appendChild(a);
+            });
 
+            // Append the div ONLY to the current announcement's card
+            card.appendChild(attachmentsDiv);
+        }
 
+        // Finally, add the finished card to the main container
         container.appendChild(card);
     });
 }
