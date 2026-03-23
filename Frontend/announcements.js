@@ -1,4 +1,3 @@
-
 let currentPage = 1;
 const recordsPerPage = 5;
 let allAnnouncements = [];
@@ -7,7 +6,14 @@ let allAnnouncements = [];
 function scrollToSection(id) {
     const element = document.getElementById(id);
     if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const headerOffset = 160;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
     }
 }
 
@@ -22,55 +28,66 @@ async function loadAnnouncements() {
     }
 }
 
-// 3. Pagination Logic
+// 3. Pagination & Display Logic
 function displayPage(page) {
     currentPage = page;
     const container = document.getElementById("announcementsContainer");
+    if (!container) return;
+    
     container.innerHTML = "";
 
-    // Calculate start and end for slicing
     const start = (page - 1) * recordsPerPage;
     const end = start + recordsPerPage;
     const paginatedItems = allAnnouncements.slice(start, end);
 
-    // Call the rendering function (Defined below)
     renderAnnouncements(paginatedItems);
-
-    // Update Pagination Buttons
     renderPagination();
 }
 
-// 4. THE CORE RENDERING FUNCTION (MUST BE UNCOMMENTED)
-// --- Updated Handle Attachments Section ---
-if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
-    const attachmentsDiv = document.createElement("div");
-    attachmentsDiv.classList.add("attachments-section");
-    attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
+// 4. THE CORE RENDERING FUNCTION (Fixed 'ann' scoping)
+function renderAnnouncements(items) {
+    const container = document.getElementById("announcementsContainer");
 
-    // Cloudinary stores single URLs, but if you eventually allow multiple, 
-    // we split by comma just in case.
-    const files = ann.attachments.split(",");
-    
-    files.forEach(fileUrl => {
-        // 1. Logic Check: If it's a Cloudinary URL, use it directly. 
-        // If it's an old local path, we handle it gracefully.
-        const isCloudinary = fileUrl.startsWith('http');
-        const finalUrl = isCloudinary ? fileUrl : `${API_BASE_URL}/${fileUrl.replace(/\\/g, '/')}`;
+    items.forEach(ann => {
+        const card = document.createElement("div");
+        card.classList.add("announcement-card");
 
-        // 2. Get a nice display name
-        const fileName = isCloudinary ? "View Attachment" : fileUrl.split(/[\\/]/).pop();
+        card.innerHTML = `
+            <h3>${ann.title}</h3>
+            <p class="short-desc">${ann.short_description}</p>
+            <p class="long-desc">${ann.long_description || ""}</p>
+            <small>Posted on: ${new Date(ann.created_at).toLocaleDateString()}</small>
+        `;
 
-        const a = document.createElement("a");
-        a.href = finalUrl;
-        a.textContent = fileName;
-        a.target = "_blank"; // Opens PDF/Image in new tab
-        a.style.marginLeft = "10px";
-        a.style.textDecoration = "underline";
-        a.style.color = "#007bff";
-        
-        attachmentsDiv.appendChild(a);
+        // --- Handle Attachments Section ---
+        if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
+            const attachmentsDiv = document.createElement("div");
+            attachmentsDiv.classList.add("attachments-section");
+            attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
+
+            const files = ann.attachments.split(",");
+            
+            files.forEach(fileUrl => {
+                const isCloudinary = fileUrl.startsWith('http');
+                // Use API_BASE_URL only for old local files
+                const finalUrl = isCloudinary ? fileUrl : `${API_BASE_URL}/${fileUrl.replace(/\\/g, '/')}`;
+                const fileName = isCloudinary ? "View Attachment" : fileUrl.split(/[\\/]/).pop();
+
+                const a = document.createElement("a");
+                a.href = finalUrl;
+                a.textContent = fileName;
+                a.target = "_blank"; 
+                a.style.marginLeft = "10px";
+                a.style.textDecoration = "underline";
+                a.style.color = "#007bff";
+                
+                attachmentsDiv.appendChild(a);
+            });
+            card.appendChild(attachmentsDiv);
+        }
+
+        container.appendChild(card);
     });
-    card.appendChild(attachmentsDiv);
 }
 
 // 5. Render Pagination UI
@@ -84,7 +101,6 @@ function renderPagination() {
     const paginationContainer = document.createElement("div");
     paginationContainer.classList.add("pagination-container");
 
-    // Helper to create buttons
     const createBtn = (i, label = i) => {
         const btn = document.createElement("button");
         btn.innerText = label;
@@ -96,18 +112,14 @@ function renderPagination() {
         return btn;
     };
 
-    // --- SMART LOGIC ---
-    // Always show First Page
     paginationContainer.appendChild(createBtn(1));
 
     if (currentPage > 3) {
         const dots = document.createElement("span");
         dots.innerText = "...";
-        dots.style.margin = "0 5px";
         paginationContainer.appendChild(dots);
     }
 
-    // Show pages around current page
     for (let i = Math.max(2, currentPage - 1); i <= Math.min(pageCount - 1, currentPage + 1); i++) {
         paginationContainer.appendChild(createBtn(i));
     }
@@ -115,11 +127,9 @@ function renderPagination() {
     if (currentPage < pageCount - 2) {
         const dots = document.createElement("span");
         dots.innerText = "...";
-        dots.style.margin = "0 5px";
         paginationContainer.appendChild(dots);
     }
 
-    // Always show Last Page
     if (pageCount > 1) {
         paginationContainer.appendChild(createBtn(pageCount));
     }
@@ -127,46 +137,18 @@ function renderPagination() {
     document.getElementById("announcementsContainer").after(paginationContainer);
 }
 
-// Search Logic
+// 6. Search Logic
 document.getElementById("searchBox").addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
     const filtered = allAnnouncements.filter(ann =>
         ann.title.toLowerCase().includes(query)
     );
-    // Reset to page 1 for search results
-    const tempStore = allAnnouncements;
+    // Temporarily swap list to show filtered results
+    const fullList = allAnnouncements;
     allAnnouncements = filtered;
     displayPage(1);
-    allAnnouncements = tempStore; // Restore full list
+    allAnnouncements = fullList; 
 });
-
-
-function setActive(element, sectionId) {
-    // 1. Remove 'active' class from all nav items
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
-
-    // 2. Add 'active' class to the clicked item
-    element.classList.add('active');
-
-    // 3. Perform the scroll
-    scrollToSection(sectionId);
-}
-
-// Update your scrollToSection to be more precise with the fixed header
-function scrollToSection(id) {
-    const element = document.getElementById(id);
-    if (element) {
-        const headerOffset = 160;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
-    }
-}
 
 // Initial Load
 loadAnnouncements();
