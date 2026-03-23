@@ -55,60 +55,52 @@ function renderAnnouncements(list) {
 
     list.forEach(ann => {
         const card = document.createElement("div");
-        card.classList.add("announcement"); // Matches your CSS class
+        card.classList.add("announcement");
 
-        // --- NEW SENTENCE FORMATTING LOGIC FOR LONG DESCRIPTION ---
+        // --- IMPROVED REGEX LOGIC ---
         let formattedLongDesc = '';
         if (ann.long_description) {
-            // Split by period followed by a space, then join with <br> tag
-            formattedLongDesc = ann.long_description.split('. ').join('.<br>');
+            // This Regex finds a period (.) and replaces it with a period + a line break <br>
+            // The 'g' means global (do it for every period, not just the first one)
+            formattedLongDesc = ann.long_description.replace(/\./g, '.<br>');
         }
-        // ----------------------------------------------------------
+        // ----------------------------
 
-        // Building the HTML structure
         card.innerHTML = `
             <div class="title">${ann.title}</div>
             <div class="short-desc">${ann.short_description}</div>
-            <div class="long-desc" style="display: none; margin-top: 10px; line-height: 1.6;">${formattedLongDesc}</div>
-            <div class="show-more" style="cursor:pointer; color: #007bff; margin-top: 5px;">Show more</div>
+            <div class="long-desc" style="display: none; margin-top: 10px; line-height: 1.8; white-space: pre-line;">${formattedLongDesc}</div>
+            <div class="show-more" style="cursor:pointer; color: #007bff; margin-top: 5px; font-weight: bold;">Show more</div>
             <div class="date" style="font-size: 0.8em; color: #888; margin-top: 10px;">
                 Posted on: ${new Date(ann.created_at).toLocaleDateString()}
             </div>
         `;
 
-        // Handle Attachments (Fixed to prevent "bleeding" to other cards)
+        // Attachment Logic (Keep this exactly as it was)
         if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
             const attachmentsDiv = document.createElement("div");
             attachmentsDiv.classList.add("attachments-section");
             attachmentsDiv.style.marginTop = "10px";
             attachmentsDiv.innerHTML = "<strong>Attachments: </strong>";
 
-            // Split and loop through specific attachments for THIS announcement only
             const files = ann.attachments.split(",");
             files.forEach(fileUrl => {
                 const url = fileUrl.trim();
                 if (!url) return;
-
                 const a = document.createElement("a");
-                a.href = url; // Directly uses the Cloudinary URL from DB
+                a.href = url;
                 a.target = "_blank";
-                
-                // Smart label based on file type
                 const isPdf = url.toLowerCase().endsWith('.pdf');
                 a.innerHTML = isPdf ? "📄 View PDF" : "🖼️ View Image";
-                
-                // Styling from your request
                 a.style.marginLeft = "10px";
                 a.style.textDecoration = "underline";
                 a.style.color = "#007bff";
-                a.style.fontSize = "0.9em";
-
                 attachmentsDiv.appendChild(a);
             });
             card.appendChild(attachmentsDiv);
         }
 
-        // Show More/Less Logic for this specific card
+        // Show More/Less Logic
         const showMoreBtn = card.querySelector(".show-more");
         const longDesc = card.querySelector(".long-desc");
         showMoreBtn.addEventListener("click", () => {
@@ -120,7 +112,6 @@ function renderAnnouncements(list) {
         container.appendChild(card);
     });
 }
-
 // 5. Render Pagination UI (Smart Logic)
 function renderPagination() {
     const oldPagination = document.querySelector(".pagination-container");
