@@ -73,11 +73,37 @@ export const addImage = async (req, res) => {
 // ... keep your deleteImage function the same ...
 export const deleteImage = async (req, res) => {
     const { id } = req.params;
+
     try {
+        // 1. Get the Image URL from the database first
+        const [rows] = await pool.query("SELECT image FROM image WHERE image_id = ?", [id]);
+        
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Photo not found in database." });
+        }
+
+        const imageUrl = rows[0].image;
+
+        // 2. Extract the "Public ID" from the Cloudinary URL
+        // Example URL: https://res.cloudinary.com/dt9pcdthz/image/upload/v12345/college_gallery/photo1.jpg
+        // We need: "college_gallery/photo1"
+        const urlParts = imageUrl.split('/');
+        const fileNameWithExtension = urlParts[urlParts.length - 1]; // "photo1.jpg"
+        const fileName = fileNameWithExtension.split('.')[0]; // "photo1"
+        
+        // If you used a folder in your upload_stream, include it here:
+        const publicId = `college_gallery/${fileName}`;
+
+        // 3. Delete from Cloudinary
+        await cloudinary.uploader.destroy(publicId);
+
+        // 4. Finally, delete from Aiven MySQL
         const [result] = await pool.query("DELETE FROM image WHERE image_id = ?", [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: "Photo not found" });
-        res.json({ message: "Photo deleted" });
+
+        res.json({ message: "Photo deleted from Cloudinary and Database successfully!" });
+
     } catch (err) {
-        res.status(500).json({ message: "Database error" });
+        console.error("Delete Error:", err);
+        res.status(500).json({ message: "Server Error: " + err.message });
     }
 };
