@@ -110,3 +110,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update the text in the HTML
     document.getElementById("inspirationText").innerText = `"${quotes[randomIndex]}"`;
 });
+
+// 1. Function to open/close the mobile menu
+function toggleMobileMenu() {
+  const nav = document.getElementById('mainNav'); // Make sure your nav has this ID
+  nav.classList.toggle('mobile-active');
+}
+
+// 2. Wrap your existing switchView function so it also closes the menu on mobile
+const originalSwitchView = window.switchView;
+window.switchView = function(btn, viewId) {
+    if (originalSwitchView) originalSwitchView(btn, viewId);
+    
+    // Close the menu if we are on mobile
+    const nav = document.getElementById('mainNav');
+    if (nav) nav.classList.remove('mobile-active');
+}
