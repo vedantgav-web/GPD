@@ -14,6 +14,10 @@ const storage = multer.memoryStorage();
 export const uploadGallery = multer({ storage }); // Export this to use in Routes
 
 export const addImage = async (req, res) => {
+
+  if (!cloudinary.config().api_key) {
+        return res.status(500).json({ message: "Cloudinary config missing on server" });
+    }
     const files = req.files; 
     const { title, album_name } = req.body;
 
