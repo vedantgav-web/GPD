@@ -57,6 +57,12 @@ function renderAnnouncements(list) {
         const card = document.createElement("div");
         card.classList.add("announcement"); // Matches your CSS class
 
+        let formattedLongDesc = '';
+        if (ann.long_description) {
+            // Split by period followed by a space, then join with <br> tag
+            formattedLongDesc = ann.long_description.split('. ').join('.<br>');
+        }
+
         // Building the HTML structure
         card.innerHTML = `
             <div class="title">${ann.title}</div>
