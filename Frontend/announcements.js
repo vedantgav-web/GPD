@@ -57,26 +57,26 @@ function renderAnnouncements(list) {
         const card = document.createElement("div");
         card.classList.add("announcement");
 
-        // --- SMART LINE BREAK LOGIC ---
+        // --- PRECISE LINE BREAK LOGIC ---
         let formattedLongDesc = '';
         if (ann.long_description) {
-            // This Regex finds a period (.) followed by a space (\s) 
-            // and replaces it with a period and an HTML line break (<br>)
-            formattedLongDesc = ann.long_description.replace(/\.\s/g, '.<br>');
+            // Logic: Find a period (.) followed by one or more spaces (\s+)
+            // Replace it with a period and TWO line breaks for a clean paragraph look
+            formattedLongDesc = ann.long_description.replace(/\.\s+/g, '.<br><br>');
         }
-        // ------------------------------
+        // --------------------------------
 
         card.innerHTML = `
             <div class="title">${ann.title}</div>
             <div class="short-desc">${ann.short_description}</div>
-            <div class="long-desc" style="display: none; margin-top: 10px; line-height: 1.6; white-space: pre-line;">${formattedLongDesc}</div>
+            <div class="long-desc" style="display: none; margin-top: 10px; line-height: 1.6;">${formattedLongDesc}</div>
             <div class="show-more" style="cursor:pointer; color: #007bff; margin-top: 5px; font-weight: bold;">Show more</div>
             <div class="date" style="font-size: 0.8em; color: #888; margin-top: 10px;">
                 Posted on: ${new Date(ann.created_at).toLocaleDateString()}
             </div>
         `;
 
-        // Handle Attachments (Keeping your working logic)
+        // Attachment Logic (Your working Cloudinary Root logic)
         if (ann.attachments && ann.attachments !== 'None' && ann.attachments !== '') {
             const attachmentsDiv = document.createElement("div");
             attachmentsDiv.classList.add("attachments-section");
@@ -87,19 +87,14 @@ function renderAnnouncements(list) {
             files.forEach(fileUrl => {
                 const url = fileUrl.trim();
                 if (!url) return;
-
                 const a = document.createElement("a");
                 a.href = url;
                 a.target = "_blank";
-                
                 const isPdf = url.toLowerCase().endsWith('.pdf');
                 a.innerHTML = isPdf ? "📄 View PDF" : "🖼️ View Image";
-                
                 a.style.marginLeft = "10px";
                 a.style.textDecoration = "underline";
                 a.style.color = "#007bff";
-                a.style.fontSize = "0.9em";
-
                 attachmentsDiv.appendChild(a);
             });
             card.appendChild(attachmentsDiv);
