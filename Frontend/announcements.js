@@ -68,23 +68,34 @@ function renderAnnouncements(items) {
     // Split by comma in case there are multiple files
     const files = ann.attachments.split(",");
     
-    files.forEach(fileUrl => {
-    const finalUrl = fileUrl.trim();
-    if (!finalUrl) return;
+    // Inside your renderAnnouncements function
+items.forEach(ann => {
+    // ... existing card creation logic ...
 
-    // We don't need to add anything, the DB has the full working link now
-    const a = document.createElement("a");
-    a.href = finalUrl; 
-    a.target = "_blank"; 
-    
-    const isPdf = finalUrl.toLowerCase().endsWith('.pdf');
-    a.textContent = isPdf ? "📄 View PDF" : "🖼️ View Image";
-    
-    // Styling
-    a.style.marginLeft = "15px";
-    a.style.color = "#007bff";
-    
-    attachmentsDiv.appendChild(a);
+    if (ann.attachments && ann.attachments !== 'None') {
+        const files = ann.attachments.split(",");
+        
+        files.forEach(fileUrl => {
+            const url = fileUrl.trim();
+            if (!url) return;
+
+            const a = document.createElement("a");
+            a.href = url; // The full working link from the DB
+            a.target = "_blank"; 
+            
+            // Nice label logic
+            const isPdf = url.toLowerCase().endsWith('.pdf');
+            a.textContent = isPdf ? "📄 View PDF" : "🖼️ View Image";
+            
+            a.style.marginLeft = "15px";
+            a.style.color = "#007bff";
+            a.style.fontWeight = "bold";
+            
+            attachmentsDiv.appendChild(a);
+        });
+        card.appendChild(attachmentsDiv);
+    }
+    container.appendChild(card);
 });
     card.appendChild(attachmentsDiv);
 }
