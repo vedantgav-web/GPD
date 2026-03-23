@@ -1,146 +1,181 @@
-/* --- 1. FLUID TYPOGRAPHY & VARIABLES --- */
 :root {
   --logo-size: clamp(80px, 15vw, 180px);
+  --header-bg: #333333;
+  --accent-yellow: #f3dfab;
+  --page-bg: #f3dfab;
+  --max-width: 1200px;
   --header-height: clamp(80px, 12vh, 150px);
-  --font-heading: clamp(1.2rem, 4vw, 1.75rem);
-  --font-para: clamp(0.9rem, 2.5vw, 1.1rem);
 }
 
-/* --- 2. THE MODERN HEADER --- */
+/* RESET & BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Rockwell Nova', 'Segoe UI', sans-serif;
+  background-color: var(--page-bg);
+  color: #222;
+  overflow-x: hidden;
+}
+
+/* --- RESPONSIVE HEADER --- */
 .site-header {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: var(--header-height);
   background: var(--header-bg);
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Changed from flex-end for better alignment */
+  align-items: center;
   padding: 0 5%;
   z-index: 3000;
-  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.college-name {
-  font-size: var(--font-heading);
-  color: var(--accent-yellow);
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  gap: clamp(10px, 2vw, 20px);
 }
 
 .logo {
   width: var(--logo-size);
   height: var(--logo-size);
-  border: 4px solid var(--accent-yellow);
-  /* Use absolute positioning only on desktop to allow overlap */
+  border-radius: 50%;
+  border: clamp(3px, 0.5vw, 6px) solid var(--accent-yellow);
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  /* Desktop Overlap */
   position: absolute;
-  top: 20px;
-  transform: none; 
+  top: 20px; 
 }
 
-/* --- 3. HAMBURGER MENU (HIDDEN ON DESKTOP) --- */
-.menu-checkbox { display: none; }
-
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  z-index: 4000;
+.college-name {
+  font-size: clamp(1rem, 2.5vw, 1.75rem);
+  font-weight: bold;
+  color: var(--accent-yellow);
+  margin-left: calc(var(--logo-size) + 10px);
 }
 
-.hamburger span {
-  width: 30px;
-  height: 3px;
-  background: var(--accent-yellow);
-  border-radius: 10px;
+/* --- NAVIGATION LOGIC --- */
+.header-nav {
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 30px;
+}
+
+.nav-item {
+  background-color: var(--accent-yellow);
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 20px;
   transition: 0.3s;
+  border: none;
+  cursor: pointer;
 }
 
-/* --- 4. RESPONSIVE NAVIGATION --- */
-@media (max-width: 1024px) {
-  .logo { position: static; width: 60px; height: 60px; border-width: 2px; }
-  
-  .hamburger { display: flex; }
+.nav-item.active {
+  background-color: #333;
+  color: var(--accent-yellow);
+}
 
+/* --- MOBILE HAMBURGER (Checkbox Hack) --- */
+.menu-checkbox { display: none; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 30px; height: 3px; background: var(--accent-yellow); transition: 0.3s; }
+
+/* --- MAIN CONTENT AREAS --- */
+.main-area {
+  margin-top: var(--header-height);
+  padding: 40px 5%;
+}
+
+/* Hero Section Grid */
+.home-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 1024px) {
+  .home-layout { grid-template-columns: 1fr; }
+  .logo { position: static; }
+  .college-name { margin-left: 0; }
+  
+  /* Mobile Menu Slide-out */
+  .hamburger { display: flex; z-index: 4000; }
   .header-nav {
     position: fixed;
     top: 0;
-    right: -100%; /* Hidden off-screen */
-    width: 70%;
+    right: -100%;
     height: 100vh;
+    width: 70%;
     background: #222;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    transition: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
     border-radius: 0;
-    margin: 0;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    transition: 0.5s ease;
   }
-
-  /* When checkbox is checked, slide menu in */
-  .menu-checkbox:checked ~ .header-nav {
-    right: 0;
-  }
-
-  /* Hamburger to 'X' animation */
-  .menu-checkbox:checked ~ .hamburger span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+  
+  .menu-checkbox:checked ~ .header-nav { right: 0; }
+  .menu-checkbox:checked ~ .hamburger span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
   .menu-checkbox:checked ~ .hamburger span:nth-child(2) { opacity: 0; }
-  .menu-checkbox:checked ~ .hamburger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+  .menu-checkbox:checked ~ .hamburger span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-  .nav-item {
-    width: 80%;
-    text-align: center;
-    font-size: 1.1rem;
-    padding: 15px;
-  }
+  .nav-item { width: 80%; margin: 10px auto; text-align: center; }
 }
 
-/* --- 5. GRID & CONTENT RESPONSIVENESS --- */
-.home-layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.left-section, .links-section, .gallery-section {
-  width: min(95%, 1100px); /* Sets max width but responsive on small screens */
-}
-
+/* Faculty Grid Reponsiveness */
 .faculty-grid {
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-}
-
-@media (max-width: 600px) {
-  .hero-box { height: 250px; }
-  .para { width: 95%; font-size: 1.1rem; }
-  .college-name { white-space: normal; line-height: 1.2; }
-}
-
-/* --- 6. LUXURY FOOTER --- */
-.main-footer {
-  padding: 60px 10%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  text-align: left;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
-@media (max-width: 768px) {
-  .main-footer { text-align: center; padding-left: 10%; }
-  .footer-img { display: inline-block; }
+/* --- SECTIONS (Cards) --- */
+.left-section, .links-section, .gallery-section {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 20px auto;
+  background: #333;
+  border-radius: 25px;
+  padding: clamp(15px, 4vw, 30px);
 }
+
+/* --- LUXURY FOOTER --- */
+.main-footer {
+  background: #333;
+  color: white;
+  padding: 60px 5% 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.main-footer h4 { color: #bbb; line-height: 1.6; }
 
 #cr {
   grid-column: 1 / -1;
+  text-align: center;
   border-top: 1px solid #444;
   padding-top: 20px;
-  color: #777;
+  margin-top: 20px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  .main-footer { text-align: center; }
+  .hero-box { height: 300px; }
+  .para { width: 100%; font-size: 1.1rem; margin: 20px 0; }
 }
