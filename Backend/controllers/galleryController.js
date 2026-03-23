@@ -15,9 +15,11 @@ export const uploadGallery = multer({ storage }); // Export this to use in Route
 
 export const addImage = async (req, res) => {
 
-  if (!cloudinary.config().api_key) {
-        return res.status(500).json({ message: "Cloudinary config missing on server" });
-    }
+  console.log("Cloudinary Config Check:", {
+        name: process.env.CLOUDINARY_CLOUD_NAME,
+        key: !!process.env.CLOUDINARY_API_KEY,
+        secret: !!process.env.CLOUDINARY_API_SECRET
+    });
     const files = req.files; 
     const { title, album_name } = req.body;
 
