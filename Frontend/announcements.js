@@ -69,29 +69,23 @@ function renderAnnouncements(items) {
     const files = ann.attachments.split(",");
     
     files.forEach(fileUrl => {
-        // Clean the URL string (removes accidental spaces)
-        const finalUrl = fileUrl.trim();
-        if (!finalUrl) return;
+    const finalUrl = fileUrl.trim();
+    if (!finalUrl) return;
 
-        // Smart Label: Detect if it's a PDF or Image
-        const isPdf = finalUrl.toLowerCase().endsWith('.pdf');
-        const fileName = isPdf ? "📄 View PDF" : "🖼️ View Image";
-
-        const a = document.createElement("a");
-        a.href = finalUrl;
-        a.textContent = fileName;
-        a.target = "_blank"; 
-        a.style.marginLeft = "15px";
-        a.style.fontWeight = "500";
-        a.style.color = "#007bff";
-        a.style.textDecoration = "none";
-        
-        // Add a hover effect via JS or your CSS file
-        a.onmouseover = () => a.style.textDecoration = "underline";
-        a.onmouseout = () => a.style.textDecoration = "none";
-
-        attachmentsDiv.appendChild(a);
-    });
+    // We don't need to add anything, the DB has the full working link now
+    const a = document.createElement("a");
+    a.href = finalUrl; 
+    a.target = "_blank"; 
+    
+    const isPdf = finalUrl.toLowerCase().endsWith('.pdf');
+    a.textContent = isPdf ? "📄 View PDF" : "🖼️ View Image";
+    
+    // Styling
+    a.style.marginLeft = "15px";
+    a.style.color = "#007bff";
+    
+    attachmentsDiv.appendChild(a);
+});
     card.appendChild(attachmentsDiv);
 }
       
