@@ -44,7 +44,7 @@ function displayPage(page) {
     renderPagination();
 }
 
-// 4. THE CORE RENDERING FUNCTION (Fixed for Cloudinary + Individual Attachments)
+// 4. THE CORE RENDERING FUNCTION (Fixed for Cloudinary + Sentence Formatting)
 function renderAnnouncements(list) {
     const container = document.getElementById("announcementsContainer");
 
@@ -57,17 +57,19 @@ function renderAnnouncements(list) {
         const card = document.createElement("div");
         card.classList.add("announcement"); // Matches your CSS class
 
+        // --- NEW SENTENCE FORMATTING LOGIC FOR LONG DESCRIPTION ---
         let formattedLongDesc = '';
         if (ann.long_description) {
             // Split by period followed by a space, then join with <br> tag
             formattedLongDesc = ann.long_description.split('. ').join('.<br>');
         }
+        // ----------------------------------------------------------
 
         // Building the HTML structure
         card.innerHTML = `
             <div class="title">${ann.title}</div>
             <div class="short-desc">${ann.short_description}</div>
-            <div class="long-desc" style="display: none; margin-top: 10px;">${ann.long_description || ''}</div>
+            <div class="long-desc" style="display: none; margin-top: 10px; line-height: 1.6;">${formattedLongDesc}</div>
             <div class="show-more" style="cursor:pointer; color: #007bff; margin-top: 5px;">Show more</div>
             <div class="date" style="font-size: 0.8em; color: #888; margin-top: 10px;">
                 Posted on: ${new Date(ann.created_at).toLocaleDateString()}
