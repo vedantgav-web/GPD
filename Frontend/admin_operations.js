@@ -235,6 +235,12 @@ if (addAnnouncementForm) {
         formData.append("title", addAnnouncementForm.querySelector('input[type="text"]').value);
         formData.append("short_description", addAnnouncementForm.querySelectorAll('textarea')[0].value);
         formData.append("long_description", addAnnouncementForm.querySelectorAll('textarea')[1].value);
+        const branch = document.getElementById("annBranch").value;
+        const semester = document.getElementById("annSem").value;
+
+        // If these are empty strings, the backend should treat it as "All"
+        formData.append("branch", branch);
+        formData.append("semester", semester);
 
         const fileInput = addAnnouncementForm.querySelector('input[type="file"]');
 
