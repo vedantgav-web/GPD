@@ -27,8 +27,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderTable("announcementViewTable", data.announcements, (a) => `
     <td><strong>${a.announcement_id}</strong></td>
     <td>${a.title}</td>
+    <td>${a.branch || 'All'}</td>
+    <td>${a.semester || 'All'}</td>
     <td>${a.short_description}</td>
     <td>${a.long_description || '-'}</td>
+    
    
     <td>${new Date(a.created_at).toLocaleDateString()}</td>
 `);
