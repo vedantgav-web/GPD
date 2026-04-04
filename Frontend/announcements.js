@@ -20,9 +20,24 @@ function scrollToSection(id) {
 // 2. Load Data from DB
 async function loadAnnouncements() {
     try {
-        // Updated to use your API_BASE_URL
+        // 1. Get student details from localStorage (assuming you stored them during login)
+        const studentData = JSON.parse(localStorage.getItem("user")); 
+        const studentBranch = studentData?.branch;
+        const studentSemester = studentData?.semester;
+
+        // 2. Fetch all announcements from the API
         const res = await fetch(`${API_BASE_URL}/announcements`);
-        allAnnouncements = await res.json();
+        const data = await res.json();
+
+        // 3. Filter announcements based on logic:
+        // Show if (Branch is empty OR matches student) AND (Semester is empty OR matches student)
+        allAnnouncements = data.filter(ann => {
+            const branchMatch = !ann.branch || ann.branch === "" || ann.branch === studentBranch;
+            const semMatch = !ann.semester || ann.semester === "" || ann.semester === studentSemester;
+            
+            return branchMatch && semMatch;
+        });
+
         displayPage(1); 
     } catch (err) {
         console.error("Error loading announcements:", err);
