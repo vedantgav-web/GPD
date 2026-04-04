@@ -15,7 +15,7 @@ export const upload = multer({ storage: storage });
 
 // --- 1. ADD ANNOUNCEMENT ---
 export const addAnnouncement = async (req, res) => {
-    const { title, short_description, long_description } = req.body;
+    const { title, short_description, long_description ,branch,semester} = req.body;
     const files = req.files; 
 
     try {
@@ -39,12 +39,23 @@ export const addAnnouncement = async (req, res) => {
             });
             attachmentUrl = uploadResult.secure_url;
         }
+      const targetBranch = branch || null;
+        const targetSemester = semester || null;
 
-        await pool.query(
-            "INSERT INTO announcements (title, short_description, long_description, attachments) VALUES (?, ?, ?, ?)",
-            [title, short_description, long_description, attachmentUrl]
-        );
+        const query = `
+            INSERT INTO announcements 
+            (title, short_description, long_description, attachments, branch, semester) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
 
+        await pool.query(query, [
+            title, 
+            short_description, 
+            long_description, 
+            attachmentUrl, 
+            targetBranch, 
+            targetSemester
+        ]);
         res.status(201).json({ success: true, message: "Announcement published successfully!" });
     } catch (err) {
         console.error("Upload/DB Error:", err);
