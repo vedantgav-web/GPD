@@ -20,17 +20,24 @@ function scrollToSection(id) {
 // 2. Load Data from DB
 async function loadAnnouncements() {
     try {
-        // 1. Get student details from where you stored them at login
-        const student = JSON.parse(localStorage.getItem("user")); 
-        const branch = student?.branch || "";
-        const semester = student?.semester || "";
+        // According to your screenshot, you might be using 'current_enrollment' 
+        // instead of 'user'. Let's check what you have.
+        const enrollmentNo = localStorage.getItem("current_enrollment");
+        
+        // If you don't have the branch/sem in localStorage yet, 
+        // you might need to fetch the student profile first, OR
+        // update your Login code to save the whole user object.
+        
+        const userJson = localStorage.getItem("user"); // This is currently NULL
+        const student = userJson ? JSON.parse(userJson) : {};
 
-        // 2. Fetch using Query Parameters
+        const branch = student.branch || "";
+        const semester = student.semester || "";
+
         const url = `${API_BASE_URL}/announcements?branch=${encodeURIComponent(branch)}&semester=${encodeURIComponent(semester)}`;
         
         const res = await fetch(url);
         allAnnouncements = await res.json();
-        
         displayPage(1); 
     } catch (err) {
         console.error("Error loading announcements:", err);
