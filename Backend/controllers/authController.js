@@ -41,8 +41,6 @@ export const staffLogin = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-/* ================= STUDENT LOGIN ================= */
 /* ================= STUDENT LOGIN ================= */
 export const studentLogin = async (req, res) => {
   // 1. Get phone_no from req.body (matching what backend1.js sends)
@@ -65,7 +63,9 @@ export const studentLogin = async (req, res) => {
     res.json({
       success: true,
       enrollment_no: rows[0].enrollment_no,
-      name: rows[0].name
+      name: rows[0].name,
+      branch: rows[0].branch,     
+      semester: rows[0].semester
     });
   } catch (err) {
     console.error(err);
