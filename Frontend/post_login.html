@@ -27,12 +27,17 @@
     </nav>
   
     <div class="header-right">
-      <a href="Student_profile.html">
-        <img src="images/user.png" alt="Clickable Image" style="cursor: pointer;" class="profile-icon" />
-      </a>
       <div class="search-container">
         <img src="images/search.png" alt="Search" class="search-icon">
-        <input type="text" id="searchBox" placeholder="Search announcements..." class="search-box">
+        <input type="text" id="searchBox" placeholder="Search..." class="search-box">
+      </div>
+      
+      <div class="user-actions">
+        <a href="Student_profile.html"> <img src="images/user.png" alt="Profile" class="profile-icon" />
+        </a>
+        <button class="logout-btn" onclick="logoutUser()" title="Logout">
+          <img src="images/logout.png" alt="Logout" class="logout-icon" />
+        </button>
       </div>
     </div>
   </header>
