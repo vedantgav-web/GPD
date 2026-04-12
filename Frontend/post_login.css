@@ -710,6 +710,39 @@ section {
 /* =========================================
    15. RESPONSIVE / MEDIA QUERIES
    ========================================= */
+/* Tablet & Small Desktop Fix (851px to 1150px) - Stops the header from disappearing */
+@media (max-width: 1150px) and (min-width: 851px) {
+  .site-header {
+    padding: 15px 20px;
+    height: auto;
+    min-height: 130px;
+    align-items: center; /* Centers everything vertically */
+  }
+
+  .logo {
+    width: 100px; /* Shrinks the massive logo */
+    height: 100px;
+    border-width: 4px;
+    transform: translateY(15%); /* Reduces the overhang */
+  }
+
+  .college-name {
+    font-size: 20px; /* Smaller font */
+    white-space: normal; /* Allows the college name to wrap to two lines if needed */
+    max-width: 280px; 
+  }
+
+  .header-nav {
+    gap: 5px;
+    margin: 0 10px;
+  }
+
+  .nav-item {
+    padding: 8px 12px;
+    font-size: 12px; /* Slightly smaller text for the buttons */
+  }
+}
+
 @media (max-width: 850px) {
   /* Fix Header */
   .site-header {
