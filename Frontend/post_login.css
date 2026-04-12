@@ -890,18 +890,19 @@ html, body {
   }
 
   /* ROW 1: Search and Profile at the very top right */
+  /* ROW 1: Search and Profile at the very top right (Matches Admin) */
   .header-right {
-    order: 1; /* Forces this to the very top */
-    position: relative; /* Resets any absolute positioning from desktop */
-    top: 0;
-    right: 0;
+    position: relative;
+    top: auto;
+    right: auto;
+    order: 1;
     width: 100%;
     display: flex;
-    flex-direction: row-reverse; /* Keeps profile on the right, search on its left */
-    justify-content: flex-start; /* Aligns them to the right edge */
+    flex-direction: row-reverse; /* Keeps profile on the far right, search to its left */
+    justify-content: flex-start; /* PUSHES THEM TO THE RIGHT EDGE */
     align-items: center;
-    gap: 15px; 
-    margin-bottom: 15px; /* Adds space between icons and the logo */
+    gap: 15px; /* Perfect spacing between the two icons */
+    margin-bottom: 15px; 
   }
 
   /* ROW 2: Logo and College Name */
