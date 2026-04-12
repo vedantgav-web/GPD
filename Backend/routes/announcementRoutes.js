@@ -6,22 +6,23 @@ const router = express.Router();
 // GET all announcements
 // GET announcements filtered by branch and semester
 router.get("/", async (req, res) => {
-  // Extract branch and semester from the URL query (e.g., /announcements?branch=Computer&semester=4)
-  const { branch, semester } = req.query;
+  // Extract parameters
+  const studentBranch = req.query.branch;
+  const studentSemester = req.query.semester;
 
   try {
-    // SQL Logic: 
-    // 1. Show if branch is NULL or empty (Global announcement) OR matches student's branch
-    // 2. AND show if semester is NULL or empty (Global) OR matches student's semester
     const sql = `
       SELECT * FROM announcements 
-      WHERE (branch IS NULL OR branch = '' OR branch = ?) 
-      AND (semester IS NULL OR semester = '' OR semester = ?)
+      WHERE 
+        (branch IS NULL OR branch = '' OR branch = 'All' OR branch = ?) 
+        AND 
+        (semester IS NULL OR semester = '' OR semester = 'All' OR semester = ?)
       ORDER BY created_at DESC
     `;
 
-    // We pass the branch and semester twice to fill the '?' placeholders
-    const [rows] = await pool.query(sql, [branch, semester]);
+    // If studentBranch or studentSemester are undefined/null, 
+    // we pass an empty string so the '?' doesn't break the query.
+    const [rows] = await pool.query(sql, [studentBranch || "", studentSemester || ""]);
     
     res.json(rows);
   } catch (err) {
