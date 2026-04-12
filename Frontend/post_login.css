@@ -878,7 +878,6 @@ html, body {
 }
 
 /* 2. Overrides for ultra-small mobile screens (350px - 480px) */
-/* 2. Overrides for ultra-small mobile screens (350px - 480px) */
 @media (max-width: 480px) {
   /* Re-flow the header to stack perfectly */
   .site-header {
@@ -887,52 +886,56 @@ html, body {
     flex-direction: column;
     align-items: center;
     position: fixed;
+    height: auto; /* Lets the header expand to fit all 3 rows */
   }
 
-  /* ROW 1: Search and Profile at the very top */
-  /* Container for search and account icons on mobile */
-@media (max-width: 480px) {
+  /* ROW 1: Search and Profile at the very top right */
   .header-right {
+    order: 1; /* Forces this to the very top */
+    position: relative; /* Resets any absolute positioning from desktop */
+    top: 0;
+    right: 0;
+    width: 100%;
     display: flex;
-    justify-content: center; /* Centers both icons on the screen */
-    align-items: center; /* Vertically aligns the icons */
-    gap: 15px; /* Adds consistent spacing between the search and account buttons */
-    width: 100%; /* Ensures the container takes up the full width for proper centering */
+    flex-direction: row-reverse; /* Keeps profile on the right, search on its left */
+    justify-content: flex-start; /* Aligns them to the right edge */
+    align-items: center;
+    gap: 15px; 
+    margin-bottom: 15px; /* Adds space between icons and the logo */
   }
-}
 
-  /* ROW 3: Navigation Menu (Centered like Admin dashboard) */
-  .header-nav {
-    order: 3;
-    width: 100%; /* Forces container to take full width */
-    justify-content: center; /* Centers the buttons inside */
-    align-self: center; /* Overrides desktop alignment */
-    gap: 8px;
-    padding: 10px 0;
-    background: transparent;
-    margin: 10px 0 0 0;
+  /* ROW 2: Logo and College Name */
+  .header-left {
+    order: 2; /* Forces this into the middle row */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
   }
 
   .logo {
-    width: 70px; /* Slightly adjusted so it looks good stacked */
+    width: 70px; 
     height: 70px;
+    transform: none; /* Stops the logo from hanging down */
   }
 
   .college-name {
     font-size: 15px;
     margin-left: 0;
     text-align: center;
-    white-space: normal; /* Allows the name to wrap */
+    white-space: normal; 
   }
 
   /* ROW 3: Navigation Menu */
   .header-nav {
-    order: 3; /* Forces this to be the bottom of the header */
+    order: 3; /* Forces this to the bottom of the header */
+    width: 100%; 
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; 
     gap: 8px;
-    padding: 10px 5px;
+    padding: 10px 0;
     background: transparent;
     margin: 10px 0 0 0;
   }
@@ -946,7 +949,7 @@ html, body {
 
   /* FIX OVERLAP: Push the main content down further to account for the taller stacked header */
   .main-area {
-    margin-top: 310px; /* Increased massively so it clears the 3-row header */
+    margin-top: 320px; 
     padding: 20px 10px;
   }
 
