@@ -1,4 +1,5 @@
 /* ================= STUDENT LOGIN ================= */
+/* ================= STUDENT LOGIN ================= */
 async function studentLogin() {
   const enrollment_no = document.getElementById("studentUsername").value;
   const phone_no = document.getElementById("studentPassword").value;
@@ -12,13 +13,19 @@ async function studentLogin() {
 
     const data = await res.json();
     console.log("Login API response:", data);
+
     if (res.ok) {
-      localStorage.setItem("enrollment_no",data.enrollment_no);
+      
+      localStorage.setItem("enrollment_no", data.enrollment_no);
+    
+      localStorage.setItem("user", JSON.stringify(data));
+      
       window.location.href = "post_login.html";
     } else {
       alert(data.message);
     }
   } catch (err) {
+    console.error(err);
     alert("Server not reachable");
   }
 }
