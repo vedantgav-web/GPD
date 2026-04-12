@@ -889,8 +889,6 @@ html, body {
     height: auto; /* Lets the header expand to fit all 3 rows */
   }
 
-  /* ROW 1: Search and Profile at the very top right */
-  /* ROW 1: Search and Profile at the very top right (Matches Admin) */
   .header-right {
     position: relative;
     top: auto;
