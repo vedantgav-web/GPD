@@ -738,7 +738,7 @@ section {
    15. RESPONSIVE / MEDIA QUERIES
    ========================================= */
 /* Tablet & Small Desktop Fix (851px to 1150px) - Stops the header from disappearing */
-@media (max-width: 1550px) and (min-width: 851px) {
+@media (max-width: 1550px) and (min-width: 951px) {
   .site-header {
     padding: 15px 20px;
     height: auto;
@@ -770,7 +770,7 @@ section {
   }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 950px) {
   /* Fix Header */
   .site-header {
     height: auto;
@@ -822,7 +822,7 @@ section {
   }
 
   .profile-icon,
-  .search-icon {
+  .search-icon,logout-icon {
     width: 25px;
     height: 25px;
   }
