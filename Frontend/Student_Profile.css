@@ -1,3 +1,6 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
 :root {
   --logo-size: 180px;
   --header-bg: #333333;
@@ -7,19 +10,28 @@
   --max-card-width: 820px;
 }
 
-/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Global fix to prevent horizontal scrolling on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
 body {
-  font-family: Rockwell Nova, sans-serif;
+  font-family: 'Rockwell Nova', sans-serif;
   background: var(--page-bg);
   color: #222;
 }
 
-/* HEADER */
+/* =========================================
+   2. HEADER
+   ========================================= */
 .site-header {
   display: flex;
   align-items: flex-end;
@@ -29,11 +41,13 @@ body {
   height: 150px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
+
 .header-left {
   display: flex;
   align-items: flex-end;
   gap: 20px;
 }
+
 .logo {
   width: var(--logo-size);
   height: var(--logo-size);
@@ -44,6 +58,7 @@ body {
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   transform: translateY(40%);
 }
+
 .college-name {
   font-size: 28px;
   font-weight: bold;
@@ -51,7 +66,9 @@ body {
   color: var(--accent-yellow);
 }
 
-/* PROFILE SECTION */
+/* =========================================
+   3. PROFILE SECTION & FORM
+   ========================================= */
 .profile-section {
   padding: 20px;
   background: white;
@@ -60,11 +77,13 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
+
 .profile-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
+
 .profile-form label {
   font-weight: bold;
 }
@@ -92,38 +111,15 @@ textarea {
   resize: none;
 }
 
-/* Profile Photo */
-.profile-photo {
-  position: relative;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.profile-photo img#studentPhoto {
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border: 3px inset #f3dfab;
-}
-.photo-edit-icon {
-  position: absolute;
-  bottom: 0px;
-  right: calc(50% - 60px);
-  width: 25px;
-  height: 25px;
-  padding: 4px;
-  border-radius: 10%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.photo-edit-icon:hover {
-  background-color: #e5d68d;
+input:invalid {
+  border-color: red;
 }
 
 /* Editable Fields */
 .editable-field {
   position: relative;
 }
+
 .field-wrapper {
   display: flex;
   align-items: center;
@@ -140,11 +136,13 @@ textarea {
   align-items: center;
   justify-content: center;
 }
+
 .field-wrapper button.field-edit-btn img {
   width: 20px;
   height: 20px;
   transition: transform 0.2s;
 }
+
 .field-wrapper button.field-edit-btn:hover img {
   transform: scale(1.1);
 }
@@ -161,16 +159,14 @@ textarea {
   margin-top: 10px;
   transition: background 0.3s;
 }
+
 .profile-form button[type="submit"]:hover {
   background-color: #000;
 }
 
-input:invalid {
-  border-color: red;
-}
-
-
-/* Modal */
+/* =========================================
+   4. MODAL
+   ========================================= */
 .modal {
   display: none;
   position: fixed;
@@ -184,6 +180,7 @@ input:invalid {
   justify-content: center;
   align-items: center;
 }
+
 .modal-content {
   background-color: white;
   padding: 30px 40px;
@@ -191,12 +188,14 @@ input:invalid {
   text-align: center;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+
 .modal-actions {
   margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 20px;
 }
+
 .modal-actions button {
   padding: 10px 20px;
   font-size: 16px;
@@ -204,11 +203,116 @@ input:invalid {
   border: none;
   border-radius: 6px;
 }
+
 #confirmBtn {
   background-color: #28a745;
   color: white;
 }
+
 #cancelBtn {
   background-color: #dc3545;
   color: white;
+}
+
+/* =========================================
+   5. RESPONSIVE / MEDIA QUERIES
+   ========================================= */
+
+/* Tablet & Small Desktop (851px to 1150px) */
+@media (max-width: 1150px) and (min-width: 851px) {
+  .site-header {
+    height: auto;
+    min-height: 130px;
+    padding: 15px 20px;
+    align-items: center;
+  }
+  .logo {
+    width: 100px;
+    height: 100px;
+    border-width: 4px;
+    transform: translateY(15%);
+  }
+  .college-name {
+    font-size: 20px;
+    white-space: normal;
+  }
+}
+
+/* Mobile Screens (up to 850px) */
+@media (max-width: 850px) {
+  .site-header {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    justify-content: center;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+    border-width: 3px;
+    transform: none; /* Stops the logo from hanging out of the header */
+  }
+  
+  .college-name {
+    font-size: 18px;
+    white-space: normal;
+    text-align: center;
+  }
+  
+  .profile-section {
+    width: 95%; /* Adapts to screen size instead of fixed width */
+    margin: 20px auto;
+    padding: 15px;
+  }
+}
+
+/* Ultra-small Mobile Screens (up to 480px) */
+@media (max-width: 480px) {
+  .site-header {
+    padding: 15px 5px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .college-name {
+    font-size: 16px;
+  }
+  
+  .profile-form input,
+  .profile-form select,
+  .profile-form textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  .field-wrapper button.field-edit-btn img {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .profile-form button[type="submit"] {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .modal-actions button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 }
