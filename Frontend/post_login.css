@@ -890,18 +890,16 @@ html, body {
   }
 
   /* ROW 1: Search and Profile at the very top */
+  /* Container for search and account icons on mobile */
+@media (max-width: 480px) {
   .header-right {
-    position: relative;
-    top: auto;
-    right: auto;
-    order: 1;
-    width: 100%;
     display: flex;
-    flex-direction: row-reverse; /* Keeps profile on the right, search on the left */
-    justify-content: center; /* Centers both icons together at the top of the screen */
-    gap: 25px; /* Adds exact, controlled space between the two icons */
-    margin-bottom: 15px; 
+    justify-content: center; /* Centers both icons on the screen */
+    align-items: center; /* Vertically aligns the icons */
+    gap: 15px; /* Adds consistent spacing between the search and account buttons */
+    width: 100%; /* Ensures the container takes up the full width for proper centering */
   }
+}
 
   /* ROW 3: Navigation Menu (Centered like Admin dashboard) */
   .header-nav {
