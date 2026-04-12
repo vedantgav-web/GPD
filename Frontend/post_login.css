@@ -845,65 +845,91 @@ html, body {
 }
 
 /* 2. Overrides for ultra-small mobile screens (350px - 480px) */
+/* 2. Overrides for ultra-small mobile screens (350px - 480px) */
 @media (max-width: 480px) {
-  /* Give the header slightly less padding so it fits */
+  /* Re-flow the header to stack perfectly */
   .site-header {
-    padding: 10px 5px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
   }
 
-  /* Stack the logo and the college name vertically to save horizontal space */
+  /* ROW 1: Search and Profile at the very top right */
+  .header-right {
+    position: relative; /* Overrides the absolute position from the 850px query */
+    top: auto;
+    right: auto;
+    order: 1; /* Forces this to be the first item visually */
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse; /* Puts them side-by-side */
+    justify-content: flex-start; /* Aligns them to the right edge */
+    margin-bottom: 15px; /* Adds space below them before the logo */
+  }
+
+  /* ROW 2: Logo and College Name */
   .header-left {
+    order: 2; /* Forces this to be the second row */
     flex-direction: column;
     align-items: center;
     gap: 5px;
     width: 100%;
-    margin-top: 15px; /* Push down slightly to avoid search/profile icons */
+    margin-top: 0;
   }
 
   .logo {
-    width: 60px;
-    height: 60px;
+    width: 70px; /* Slightly adjusted so it looks good stacked */
+    height: 70px;
   }
 
   .college-name {
     font-size: 15px;
     margin-left: 0;
     text-align: center;
-    white-space: normal; /* Allows the name to wrap if needed */
+    white-space: normal; /* Allows the name to wrap */
   }
 
-  /* Fix the squished navigation pills by allowing them to wrap into a grid */
+  /* ROW 3: Navigation Menu */
   .header-nav {
+    order: 3; /* Forces this to be the bottom of the header */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
     padding: 10px 5px;
-    border-radius: 15px;
-    background: transparent; /* Remove background box to save space */
+    background: transparent;
+    margin: 10px 0 0 0;
   }
 
   .nav-item {
     font-size: 11px;
     padding: 8px 12px;
-    flex: 1 1 30%; /* Forces buttons to wrap into neat rows instead of squishing */
+    flex: 1 1 30%;
     text-align: center;
   }
 
-  /* Fix the footer cutting off and text stacking in a tiny column */
+  /* FIX OVERLAP: Push the main content down further to account for the taller stacked header */
+  .main-area {
+    margin-top: 310px; /* Increased massively so it clears the 3-row header */
+    padding: 20px 10px;
+  }
+
+  /* Footer fixes */
   footer {
     width: 100%;
   }
 
   .main-footer {
     width: 100%;
-    padding: 30px 15px !important; /* Force override any inherited massive padding */
-    box-sizing: border-box; /* Stops padding from adding extra width */
+    padding: 30px 15px !important; 
+    box-sizing: border-box; 
     text-align: center;
   }
 
   .main-footer h4 {
     font-size: 13px;
-    word-wrap: break-word; /* Prevents long emails from breaking the layout */
+    word-wrap: break-word; 
   }
 }
