@@ -835,3 +835,75 @@ section {
     transform: scale(0.7);
   }
 }
+
+
+/* 1. Prevent the whole page from stretching horizontally (Fixes the footer gap) */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* 2. Overrides for ultra-small mobile screens (350px - 480px) */
+@media (max-width: 480px) {
+  /* Give the header slightly less padding so it fits */
+  .site-header {
+    padding: 10px 5px;
+  }
+
+  /* Stack the logo and the college name vertically to save horizontal space */
+  .header-left {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    margin-top: 15px; /* Push down slightly to avoid search/profile icons */
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .college-name {
+    font-size: 15px;
+    margin-left: 0;
+    text-align: center;
+    white-space: normal; /* Allows the name to wrap if needed */
+  }
+
+  /* Fix the squished navigation pills by allowing them to wrap into a grid */
+  .header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 5px;
+    border-radius: 15px;
+    background: transparent; /* Remove background box to save space */
+  }
+
+  .nav-item {
+    font-size: 11px;
+    padding: 8px 12px;
+    flex: 1 1 30%; /* Forces buttons to wrap into neat rows instead of squishing */
+    text-align: center;
+  }
+
+  /* Fix the footer cutting off and text stacking in a tiny column */
+  footer {
+    width: 100%;
+  }
+
+  .main-footer {
+    width: 100%;
+    padding: 30px 15px !important; /* Force override any inherited massive padding */
+    box-sizing: border-box; /* Stops padding from adding extra width */
+    text-align: center;
+  }
+
+  .main-footer h4 {
+    font-size: 13px;
+    word-wrap: break-word; /* Prevents long emails from breaking the layout */
+  }
+}
