@@ -485,7 +485,14 @@ input[type=number] { -moz-appearance: textfield; }
     justify-content: flex-start;
   }
   .header-left { order: 2; }
-  .header-nav { order: 3; }
+  .header-nav { 
+    order: 3; 
+    width: 100%; /* Forces the container to stretch across the screen */
+    justify-content: center; /* Centers the buttons inside */
+    align-self: center; /* Overrides the desktop right-alignment */
+    margin: 10px 0 0 0; /* Removes any side margins pushing it off-center */
+    padding: 5px 0; /* Keeps a little breathing room */
+  }
   
   .nav-item {
     font-size: 11px;
