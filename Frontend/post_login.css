@@ -102,8 +102,33 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-direction: row-reverse;
+  gap: 20px; /* Space between Search and the User Actions block */
+}
+
+/* New styles for the grouped buttons */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between Profile Icon and Logout Icon */
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.2s ease;
+}
+
+.logout-btn:hover .logout-icon {
+  transform: scale(1.1); /* Slight zoom effect on hover */
 }
 
 .header-menu {
