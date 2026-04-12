@@ -822,7 +822,7 @@ section {
   }
 
   .profile-icon,
-  .search-icon,logout-icon {
+  .search-icon, .logout-icon {
     width: 25px;
     height: 25px;
   }
