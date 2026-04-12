@@ -1,167 +1,750 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
 :root {
   --logo-size: 180px;
   --header-bg: #333333;
   --accent-yellow: #f3dfab;
   --page-bg: #f3dfab;
-  --card-width: 90%;
+  --card-width: 80%;
   --max-card-width: 820px;
 }
 
-/* --- GLOBAL RESET & BODY --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth; /* Enables the sliding effect */
+}
+
+/* =========================================
+   2. GLOBAL STYLES & TYPOGRAPHY
+   ========================================= */
 body {
   font-family: 'Rockwell Nova', sans-serif;
   background-color: var(--page-bg);
   color: #222;
-  overflow-x: hidden; /* Prevents horizontal scroll from pushing content right */
 }
 
-/* --- CENTERED CONTAINERS --- */
-.main-area {
-  margin-top: 160px; /* Space for fixed header */
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centers all view-containers */
+.heading {
+  text-align: center;
+  padding-bottom: 20px;
+  color: var(--accent-yellow);
+  font-size: 22px;
 }
 
-.view-container {
+.sub-heading {
+  text-align: center;
+  border-bottom: 2px solid var(--accent-yellow);
+  display: table;
+  margin: 20px auto;
+  padding-bottom: 5px;
+}
+
+.page-heading {
+  margin: 10px;
+  text-align: center;
+}
+
+.para {
+  color: #333333;
+  font-size: 27px;
+  width: 60%;
+  margin: 3%;
+}
+
+/* =========================================
+   3. HEADER & NAVIGATION
+   ========================================= */
+.site-header {
+  position: fixed; /* Header stays locked at the top */
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  z-index: 2000; /* Stays above everything */
+  background: var(--header-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px 40px;
+  height: 150px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
-/* Fix for sections that were shifting right */
+.header-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.logo {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: 50%;
+  border: 6px solid var(--accent-yellow);
+  object-fit: cover;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(40%);
+}
+
+.college-name {
+  font-size: 28px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin-left: 10px;
+  color: var(--accent-yellow);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-direction: row-reverse;
+}
+
+.header-menu {
+  display: flex;
+  gap: 15px;
+  margin: 0 20px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1); /* Subtle container background */
+  padding: 5px;
+  border-radius: 30px;
+  margin: 0 20px;
+  align-self: flex-end;
+}
+
+.nav-item {
+  color: #333; /* Dark text for light background */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  background-color: var(--accent-yellow); /* Light color background */
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.nav-item:hover {
+  background-color: #e6ce92; /* Slightly darker yellow on hover */
+}
+
+.nav-item.active {
+  background-color: #333333; /* Dark color for selected */
+  color: var(--accent-yellow); /* Light text for dark background */
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-tab {
+  background: transparent;
+  border: none;
+  color: var(--accent-yellow);
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+}
+
+.menu-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid var(--accent-yellow);
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.search-box {
+  width: 0;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  margin-left: 10px;
+}
+
+.search-container.active .search-box {
+  width: 180px;
+  padding: 6px 10px;
+  opacity: 1;
+}
+
+/* =========================================
+   4. MAIN LAYOUT & CORE SECTIONS
+   ========================================= */
+section {
+  scroll-margin-top: 170px; /* Scroll Offset Fix */
+}
+
+.main-area {
+  margin-top: 150px;
+  padding: 80px 20px 60px;
+}
+
 .left-section,
 .links-section,
-.gallery-section,
-.vision-mission-section {
+.vision-mission-section,
+.gallery-section {
   background: #333333;
-  border-radius: 30px;
-  margin: 20px auto; /* Centers the box */
+  border-radius: 40px;
+  margin: 30px auto;
   padding: 25px;
-  width: 90%; /* Responsive width */
-  max-width: 900px;
+  width: 60%;
   color: white;
   text-align: center;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.25);
 }
 
-/* --- HERO & HOME LAYOUT --- */
+/* =========================================
+   5. UI COMPONENTS (Buttons, Pagination)
+   ========================================= */
+.primary-btn {
+  background: #e67e22;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.primary-btn:hover {
+  background: #d35400;
+}
+
+.pagination-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.page-btn {
+  background-color: var(--accent-yellow);
+  border: none;
+  color: #333;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.page-btn:hover {
+  background-color: #e6ce92;
+}
+
+.page-btn.active {
+  background-color: #333333;
+  color: var(--accent-yellow);
+  transform: scale(1.1);
+}
+
+.pagination-container span {
+  font-weight: bold;
+  color: var(--accent-yellow);
+}
+
+/* =========================================
+   6. HOME PAGE LAYOUT
+   ========================================= */
 .home-layout {
   display: flex;
-  flex-wrap: wrap; /* Allows stacking on small screens */
   gap: 20px;
-  justify-content: center;
-  margin-bottom: 30px;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .hero-box {
   flex: 2;
-  min-width: 300px;
-  height: 400px;
+  position: relative;
+  height: 450px;
   border-radius: 20px;
   overflow: hidden;
-  position: relative;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  width: 100%;
+  padding: 30px;
 }
 
 .side-box {
   flex: 1;
-  min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 15px; /* Allow cards to stack */
 }
 
-.para {
-  color: #333;
-  font-size: 1.2rem;
-  width: 90%;
-  max-width: 800px;
-  margin: 20px auto;
-  text-align: center;
-  line-height: 1.6;
-}
-
-/* --- RESPONSIVE FIXED FOOTER --- */
-footer {
+/* =========================================
+   7. ANNOUNCEMENTS SECTION
+   ========================================= */
+.announcements-grid {
   width: 100%;
-  background-color: #333333;
-  color: white;
-  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 600px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* hide scrollbar in Firefox */
 }
 
-.main-footer {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px 20px;
+.announcements-grid::-webkit-scrollbar {
+  display: none; /* hide scrollbar in Chrome, Edge, Safari */
+}
+
+.announcement {
+  width: var(--card-width);
+  max-width: var(--max-card-width);
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  margin: 20px auto;
+  color: #333333;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.announcement:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
+}
+
+.title,
+.short-desc {
+  font-weight: bold;
+}
+
+.short-desc {
+  margin-bottom: 10px;
+}
+
+.long-desc,
+.date,
+.attachments {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* =========================================
+   8. LINKS SECTION
+   ========================================= */
+.links-grid {
+  display: block;
+}
+
+.link-card {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 10px auto;
+  width: 80%;
+}
+
+.link-card a {
+  color: #333333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.link-card a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   9. VISION & MISSION SECTION
+   ========================================= */
+.vm-container {
+  display: block;
+}
+
+.vm-container p {
   text-align: left;
 }
 
-.main-footer h2 {
+.vm-card,
+.quote-card,
+.vision-card {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  margin: 10px auto;
+  width: 80%;
+  color: #333333;
+}
+
+.quote-card,
+.vision-card {
+  background: #333;
   color: var(--accent-yellow);
+  padding: 20px;
+  border-radius: 20px;
+  border-left: 5px solid var(--accent-yellow);
+  width: auto; /* Reset width for sidebar usage */
+  margin: 0; /* Reset margin for sidebar usage */
+}
+
+.vm-section-home {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.vm-title-home {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.vm-card-home {
+  background: #333333;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  color: #ffffff;
+  text-align: left;
+}
+
+.vm-card-home h4 {
+  color: var(--accent-yellow);
+  margin-bottom: 5px;
+  border-bottom: 2px solid var(--accent-yellow);
+  display: inline-block;
+}
+
+.vm-card-home p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* =========================================
+   10. 3D GALLERY SYSTEM
+   ========================================= */
+.album-3d-section {
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+.album-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--accent-yellow);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.gallery-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.gallery-image {
+  position: absolute;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.gallery-image.main {
+  width: 350px;
+  height: 100%;
+  z-index: 10;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.gallery-image.small {
+  width: 250px;
+  height: 75%;
+  opacity: 0.6;
+  z-index: 5;
+}
+
+.gallery-image.left {
+  left: 18%;
+  transform: translateX(0) rotateY(25deg) scale(0.8);
+}
+
+.gallery-image.right {
+  right: 18%;
+  transform: translateX(0) rotateY(-25deg) scale(0.8);
+}
+
+/* =========================================
+   11. FACULTY SECTION
+   ========================================= */
+.faculty-lead {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+
+.faculty-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.faculty-card:hover {
+  transform: translateY(-5px);
+}
+
+.faculty-card img {
+  width: 60%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ddd;
   margin-bottom: 15px;
 }
 
-.main-footer h4 {
-  color: #ccc;
-  font-weight: normal;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.faculty-card h4 {
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
 }
 
-.footer-img {
-  height: 18px;
-  filter: brightness(0) invert(1); /* Makes icons white */
+.faculty-card .designation {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   12. RESULTS & SUMMARY
+   ========================================= */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.result-summary-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.result-summary-card .sem-title {
+  background: #2c3e50;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.summary-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.stat-item .label {
+  color: #666;
+}
+
+.stat-item .value {
+  font-weight: bold;
+  color: #333;
+}
+
+.status-badge {
+  margin-top: 10px;
+  padding: 8px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pass {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-fail {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.full-view-cta {
+  margin-top: 40px;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+/* =========================================
+   13. FOOTER
+   ========================================= */
+.main-footer {
+  text-align: left;
+  background-color: #333333;
+  color: white;
+  padding: 50px;
+  padding-left: 300px;
+  padding-bottom: 30px;
+}
+
+.main-footer h4 {
+  color: #999999;
+  margin: 0; /* Fixed syntax error */
 }
 
 #cr {
-  width: 100%;
+  margin-top: 10px;
   text-align: center;
-  padding: 20px;
-  border-top: 1px solid #444;
-  font-size: 0.85rem;
-  color: #888;
 }
 
-/* --- MOBILE RESPONSIVENESS (850px and below) --- */
+.footer-img {
+  height: 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+/* =========================================
+   14. ANIMATIONS & UTILITIES
+   ========================================= */
+.view-container {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.view-container.active {
+  display: block !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   15. RESPONSIVE / MEDIA QUERIES
+   ========================================= */
 @media (max-width: 850px) {
   .site-header {
     height: auto;
+    min-height: 100px;
     flex-direction: column;
     align-items: center;
-    padding: 15px;
-    position: static; /* Let it flow normally to avoid overlap */
+    padding: 10px;
+    justify-content: center;
   }
 
-  .main-area {
-    margin-top: 20px; /* Reduced since header is no longer fixed */
+  .header-left {
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
   .logo {
-    width: 100px;
-    height: 100px;
-    transform: none; /* Remove overlap */
+    width: 80px;
+    height: 80px;
+    border-width: 3px;
+    transform: none;
     position: static;
   }
 
   .college-name {
-    font-size: 20px;
+    font-size: 18px;
     white-space: normal;
     text-align: center;
-    margin: 10px 0;
   }
 
   .header-nav {
-    flex-wrap: wrap;
+    width: 100%;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
     margin: 10px 0;
   }
 
@@ -170,16 +753,60 @@ footer {
     padding: 6px 12px;
   }
 
-  /* Center everything in footer for mobile */
-  .main-footer {
-    text-align: center;
-  }
-  
-  .main-footer h4 {
-    justify-content: center;
+  .header-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    gap: 8px;
   }
 
-  .hero-box {
-    height: 250px;
+  .profile-icon,
+  .search-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .main-area {
+    margin-top: 180px;
+    padding: 20px 10px;
+  }
+
+  .left-section,
+  .links-section,
+  .vision-mission-section,
+  .gallery-section {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --logo-size: 150px;
+  }
+
+  .search-box {
+    width: 120px;
+  }
+
+  .left-section,
+  .links-section,
+  .vision-mission-section,
+  .gallery-section {
+    width: 95%;
+  }
+
+  .gallery-image.main {
+    width: 70%;
+  }
+
+  .gallery-image.left {
+    left: 0;
+    transform: scale(0.7);
+  }
+
+  .gallery-image.right {
+    right: 0;
+    transform: scale(0.7);
   }
 }
