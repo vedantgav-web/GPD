@@ -889,27 +889,30 @@ html, body {
     position: fixed;
   }
 
-  /* ROW 1: Search and Profile at the very top right */
+  /* ROW 1: Search and Profile at the very top */
   .header-right {
-    position: relative; /* Overrides the absolute position from the 850px query */
+    position: relative;
     top: auto;
     right: auto;
-    order: 1; /* Forces this to be the first item visually */
+    order: 1;
     width: 100%;
     display: flex;
-    flex-direction: row-reverse; /* Puts them side-by-side */
-    justify-content: flex-start; /* Aligns them to the right edge */
-    margin-bottom: 15px; /* Adds space below them before the logo */
+    flex-direction: row-reverse; /* Keeps profile on the right, search on the left */
+    justify-content: center; /* Centers both icons together at the top of the screen */
+    gap: 25px; /* Adds exact, controlled space between the two icons */
+    margin-bottom: 15px; 
   }
 
-  /* ROW 2: Logo and College Name */
-  .header-left {
-    order: 2; /* Forces this to be the second row */
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    width: 100%;
-    margin-top: 0;
+  /* ROW 3: Navigation Menu (Centered like Admin dashboard) */
+  .header-nav {
+    order: 3;
+    width: 100%; /* Forces container to take full width */
+    justify-content: center; /* Centers the buttons inside */
+    align-self: center; /* Overrides desktop alignment */
+    gap: 8px;
+    padding: 10px 0;
+    background: transparent;
+    margin: 10px 0 0 0;
   }
 
   .logo {
