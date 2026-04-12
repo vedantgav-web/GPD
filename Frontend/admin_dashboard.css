@@ -72,9 +72,35 @@ body {
 .header-right {
   display: flex;
   align-items: center; 
-  gap: 20px;
-  flex-direction: row-reverse;
+  gap: 20px; /* Space between Search and User Actions */
   margin-bottom: 15px; 
+}
+
+/* New styles for the grouped buttons */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between Profile and Logout */
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.2s ease;
+   border-radius:50%;
+}
+
+.logout-btn:hover .logout-icon {
+  transform: scale(1.1);
 }
 
 .profile-icon {
@@ -391,7 +417,7 @@ input[type=number] { -moz-appearance: textfield; }
    ========================================= */
 
 /* Tablet & Small Desktop (851px to 1150px) */
-@media (max-width: 1150px) and (min-width: 851px) {
+@media (max-width: 1150px) and (min-width: 951px) {
   .site-header {
     height: auto;
     min-height: 130px;
@@ -415,7 +441,7 @@ input[type=number] { -moz-appearance: textfield; }
 }
 
 /* Mobile Screens (up to 850px) */
-@media (max-width: 850px) {
+@media (max-width: 950px) {
   .site-header {
     height: auto;
     position: relative; /* Disables sticky to free up mobile screen space */
@@ -479,10 +505,15 @@ input[type=number] { -moz-appearance: textfield; }
   }
 
   /* Re-order header elements for maximum space efficiency */
+  /* Re-order header elements for maximum space efficiency */
   .header-right {
     order: 1;
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: row; /* Normal row direction */
+    justify-content: space-between; /* Search left, Actions right */
+    align-items: center;
+    margin-bottom: 15px;
   }
   .header-left { order: 2; }
   .header-nav { 
