@@ -897,7 +897,7 @@ html, body {
     width: 100%;
     display: flex;
     flex-direction: row-reverse; /* Keeps profile on the far right, search to its left */
-    justify-content: flex-start; /* PUSHES THEM TO THE RIGHT EDGE */
+    justify-content: flex-between; /* PUSHES THEM TO THE RIGHT EDGE */
     align-items: center;
     gap: 15px; /* Perfect spacing between the two icons */
     margin-bottom: 15px; 
