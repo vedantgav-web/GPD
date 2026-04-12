@@ -711,7 +711,7 @@ section {
    15. RESPONSIVE / MEDIA QUERIES
    ========================================= */
 /* Tablet & Small Desktop Fix (851px to 1150px) - Stops the header from disappearing */
-@media (max-width: 1150px) and (min-width: 851px) {
+@media (max-width: 1550px) and (min-width: 851px) {
   .site-header {
     padding: 15px 20px;
     height: auto;
